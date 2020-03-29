@@ -6,11 +6,16 @@
         <item name="colorPrimary">#23D25B</item>
         <item name="colorPrimaryDark">#17B449</item>
         <item name="colorAccent">@color/colorAccent</item>
-
     </style>
     <style name="navStyle" parent="android:Theme.Light">
         <item name="android:windowBackground">#FFFFFF</item>
         <item name="android:colorBackground">#FFFFFF</item>
+    </style>
+    <style name="Theme.AppCompat.Light.NoActionBar.FullScreen" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
     </style>
 
 </resources>
