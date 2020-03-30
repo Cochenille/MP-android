@@ -7,16 +7,16 @@
 
     <fragment
         android:id="@+id/navigation_map"
-        android:name="ca.ulaval.ima.mp.ui.home.MapFragment"
+        android:name="ca.ulaval.ima.mp.ui.map.RestoMapFragment"
         tools:layout="@layout/fragment_map" />
 
     <fragment
         android:id="@+id/navigation_nearlist"
-        android:name="ca.ulaval.ima.mp.ui.dashboard.NearListFragment"
+        android:name="ca.ulaval.ima.mp.ui.nearList.NearListFragment"
         tools:layout="@layout/fragment_nearlist" />
 
     <fragment
         android:id="@+id/navigation_profil"
-        android:name="ca.ulaval.ima.mp.ui.notifications.ProfilFragment"
+        android:name="ca.ulaval.ima.mp.ui.profil.ProfilFragment"
         tools:layout="@layout/fragment_profil" />
 </navigation>
