@@ -1,5 +1,7 @@
 package ca.ulaval.ima.mp.ui.map
 import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.MarkerOptions
@@ -15,13 +17,15 @@ import android.view.*
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import ca.ulaval.ima.mp.R
+import ca.ulaval.ima.mp.ApiHelper
+import okhttp3.OkHttpClient
 
 
 class RestoMapFragment : Fragment() {
 
     internal lateinit var mMapView: MapView
     private var googleMap: GoogleMap? = null
+    private var apiHelper:ApiHelper = ApiHelper()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,20 +56,26 @@ class RestoMapFragment : Fragment() {
                 googleMap!!.isMyLocationEnabled = true
 
                 // For dropping a marker at a point on the Map
-                val sydney = LatLng(-34.0, 151.0)
-                googleMap!!.addMarker(MarkerOptions().position(sydney).title("Marker Title").snippet("Marker Description"))
+                val ulaval = LatLng(46.781918, -71.274810)
+                googleMap!!.addMarker(MarkerOptions().position(ulaval).title("Marker Title").snippet("Marker Description"))
 
                 // For zooming automatically to the location of the marker
-                val cameraPosition = CameraPosition.Builder().target(sydney).zoom(12f).build()
+                val cameraPosition = CameraPosition.Builder().target(ulaval).zoom(12f).build()
                 googleMap!!.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
             } else {
                 Toast.makeText(context, "FUCK", Toast.LENGTH_LONG).show()
             }
 
+            getRestaurants()
+
 
         }
 
         return root
+    }
+
+    fun getRestaurants(){
+
     }
 
     override fun onResume() {

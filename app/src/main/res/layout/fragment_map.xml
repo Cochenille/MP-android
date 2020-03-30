@@ -25,13 +25,14 @@
             android:layout_height="match_parent" />
 
         <include
+            android:id="@+id/map_overlay"
             layout="@layout/petit_creux"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginBottom="80dp"/>
+            android:layout_marginBottom="80dp" />
     </FrameLayout>
 
 </LinearLayout>
