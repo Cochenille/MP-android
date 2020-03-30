@@ -3,4 +3,6 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="un_petit_creux">Un petit creux?</string>
+    <string name="selectionnez_epingle">Sélectionnez une épingle afin d’obtenir plus de détails sur ce restaurant.</string>
 </resources>
