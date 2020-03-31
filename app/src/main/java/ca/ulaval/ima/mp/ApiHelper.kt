@@ -1,8 +1,8 @@
 package ca.ulaval.ima.mp
 
+import android.os.Handler
+import android.os.Looper
 import okhttp3.*
-import org.json.JSONException
-import org.json.JSONObject
 import java.io.IOException
 
 class ApiHelper {
@@ -10,8 +10,13 @@ class ApiHelper {
     val JSON = MediaType.parse("application/json; charset=utf-8")
 
 
-    fun getRestaurantsWithinRadius(page:Int,pageSize:Int,latitude:Double,longitude:Double,radius:Int,text:String,callback:HttpCallback){
-        var URL = String.format("https://kungry.ca/api/v1/restaurant/search/?page=%d&page_size=%d&latitude=%f&longitude=%f&radius=%d&text=%s",page,pageSize,latitude,longitude,radius,text)
+    fun getRestaurantsWithinRadius(
+        page: Int?,
+        latitude: Double?,
+        longitude: Double?,
+        radius: Int?,
+        callback:HttpCallback){
+        var URL = String.format("https://kungry.ca/api/v1/restaurant/search/?page=%d&latitude=%f&longitude=%f&radius=%d",page,latitude,longitude,radius)
         val request = Request.Builder()
             .url(URL)
             .build()
@@ -19,15 +24,14 @@ class ApiHelper {
             override fun onFailure(call: Call, e: IOException) {
                 e.printStackTrace()
             }
-
             @Throws(IOException::class)
             override fun onResponse(call: Call, response: Response) {
                 if (response.isSuccessful) {
-                    try {
-                        val jsonResponse = JSONObject(response.body()!!.string())
-                        val content = jsonResponse.getJSONObject("content")
-                    } catch (e: JSONException) {
-                        e.printStackTrace()
+                    val mainHandler = Handler(
+                        Looper.getMainLooper()
+                    )
+                    mainHandler.post {
+                        callback.onSuccess(response)
                     }
                 } else {
                     callback.onFailure(response, null)

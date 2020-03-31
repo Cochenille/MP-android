@@ -1,41 +1,55 @@
 package ca.ulaval.ima.mp.ui.map
+
+import android.content.Context
 import android.content.pm.PackageManager
-import android.location.Address
-import android.location.Geocoder
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.GoogleMap
-
-import com.google.android.gms.maps.MapsInitializer
-
-import com.google.android.gms.maps.MapView
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.os.Bundle
-
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
+import android.widget.ViewFlipper
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import ca.ulaval.ima.mp.ApiHelper
-import okhttp3.OkHttpClient
+import ca.ulaval.ima.mp.R
+import ca.ulaval.ima.mp.domain.Restaurant
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.MapsInitializer
+import com.google.android.gms.maps.model.*
+import com.squareup.picasso.Picasso
+import okhttp3.Response
+import org.json.JSONException
+import org.json.JSONObject
 
 
-class RestoMapFragment : Fragment() {
+class RestoMapFragment : Fragment(), GoogleMap.OnMarkerClickListener,GoogleMap.OnInfoWindowCloseListener {
 
     internal lateinit var mMapView: MapView
+    private lateinit var viewFlipper: ViewFlipper
+    private lateinit var restoInfoOverlay: ConstraintLayout
+
     private var googleMap: GoogleMap? = null
-    private var apiHelper:ApiHelper = ApiHelper()
+    private var apiHelper: ApiHelper = ApiHelper()
+    private var restaurantArray = ArrayList<Restaurant>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(ca.ulaval.ima.mp.R.layout.fragment_map, container, false)
+        val root = inflater.inflate(R.layout.fragment_map, container, false)
 
 
-        mMapView = root.findViewById(ca.ulaval.ima.mp.R.id.mapView)
+        mMapView = root.findViewById(R.id.mapView)
+        viewFlipper = root.findViewById(R.id.map_overlay)
+        restoInfoOverlay = root.findViewById(R.id.restaurant_info_overlay)
         mMapView.onCreate(savedInstanceState)
 
         mMapView.onResume() // needed to get the map to display immediately
@@ -48,16 +62,26 @@ class RestoMapFragment : Fragment() {
 
         mMapView.getMapAsync { mMap ->
             googleMap = mMap
-            if (ContextCompat.checkSelfPermission(root.context, android.Manifest.permission.ACCESS_FINE_LOCATION) ==
+            if (ContextCompat.checkSelfPermission(
+                    root.context,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION
+                ) ==
                 PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(root.context, android.Manifest.permission.ACCESS_COARSE_LOCATION) ==
-                PackageManager.PERMISSION_GRANTED) {
+                ContextCompat.checkSelfPermission(
+                    root.context,
+                    android.Manifest.permission.ACCESS_COARSE_LOCATION
+                ) ==
+                PackageManager.PERMISSION_GRANTED
+            ) {
                 // For showing a move to my location button
                 googleMap!!.isMyLocationEnabled = true
 
                 // For dropping a marker at a point on the Map
                 val ulaval = LatLng(46.781918, -71.274810)
-                googleMap!!.addMarker(MarkerOptions().position(ulaval).title("Marker Title").snippet("Marker Description"))
+                googleMap!!.addMarker(
+                    MarkerOptions().position(ulaval).title("Marker Title")
+                        .snippet("Marker Description").icon(bitmapDescriptorFromVector(context!!,R.drawable.ic_pin_1))
+                )
 
                 // For zooming automatically to the location of the marker
                 val cameraPosition = CameraPosition.Builder().target(ulaval).zoom(12f).build()
@@ -65,18 +89,69 @@ class RestoMapFragment : Fragment() {
             } else {
                 Toast.makeText(context, "FUCK", Toast.LENGTH_LONG).show()
             }
-
+            googleMap!!.setOnMarkerClickListener(this)
+            googleMap!!.setOnInfoWindowCloseListener(this)
             getRestaurants()
-
-
         }
 
         return root
     }
 
-    fun getRestaurants(){
+    private fun getRestaurants() {
+        apiHelper.getRestaurantsWithinRadius(
+            1,
+            46.781918,
+            -71.274810,
+            30,
+            object : ApiHelper.HttpCallback {
+                override fun onFailure(
+                    response: Response?,
+                    throwable: Throwable?
+                ) {
+                }
+
+                override fun onSuccess(response: Response?) {
+                    restaurantArray.clear()
+                    try {
+                        val jsonResponse = JSONObject(response?.body()!!.string())
+                        val content = jsonResponse.getJSONObject("content")
+                        val restaurantsJSONArray = content.getJSONArray("results")
+                        for (i in 0 until restaurantsJSONArray.length()) {
+                            val restaurantJson = restaurantsJSONArray.getJSONObject(i);
+                            val restaurant: Restaurant =
+                                Restaurant.fromJson(restaurantJson.toString())!!
+                            restaurantArray.add(restaurant)
+                        }
+                        addRestaurantsMarker()
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    }
+                }
+            })
+
 
     }
+
+    private fun addRestaurantsMarker() {
+        for (restaurant in restaurantArray) {
+            var marker: Marker
+            var restaurantPos = LatLng(restaurant.location.latitude, restaurant.location.longitude)
+            marker = googleMap!!.addMarker(
+                MarkerOptions().position(restaurantPos).icon(bitmapDescriptorFromVector(context!!,R.drawable.ic_pin_1)).title(restaurant.name)
+            )
+            marker.tag = restaurant;
+        }
+    }
+
+    private fun bitmapDescriptorFromVector(context: Context, vectorResId: Int): BitmapDescriptor? {
+        return ContextCompat.getDrawable(context, vectorResId)?.run {
+            setBounds(0, 0, intrinsicWidth, intrinsicHeight)
+            val bitmap = Bitmap.createBitmap(intrinsicWidth, intrinsicHeight, Bitmap.Config.ARGB_8888)
+            draw(Canvas(bitmap))
+            BitmapDescriptorFactory.fromBitmap(bitmap)
+        }
+    }
+
 
     override fun onResume() {
         super.onResume()
@@ -96,6 +171,25 @@ class RestoMapFragment : Fragment() {
     override fun onLowMemory() {
         super.onLowMemory()
         mMapView.onLowMemory()
+    }
+
+    override fun onMarkerClick(marker: Marker?): Boolean {
+        marker!!.showInfoWindow()
+        marker!!.setIcon(bitmapDescriptorFromVector(context!!,R.drawable.ic_black_map_marker))
+        var restaurant :Restaurant = marker?.tag as Restaurant
+        viewFlipper.displayedChild = 1
+        var nameTextView = restoInfoOverlay.findViewById<TextView>(R.id.restaurant_name_textview)
+        var imageView = restoInfoOverlay.findViewById<ImageView>(R.id.restaurant_image_view)
+        var distanceTextView = restoInfoOverlay.findViewById<TextView>(R.id.distance_textiview)
+        Picasso.get().load(restaurant.image).into(imageView);
+        nameTextView.text = restaurant.name
+        distanceTextView.text = restaurant.distance.toString() + "km"
+        return false
+    }
+
+    override fun onInfoWindowClose(marker: Marker?) {
+        marker!!.setIcon(bitmapDescriptorFromVector(context!!,R.drawable.ic_pin_1))
+        viewFlipper.displayedChild = 0
     }
 
 }
