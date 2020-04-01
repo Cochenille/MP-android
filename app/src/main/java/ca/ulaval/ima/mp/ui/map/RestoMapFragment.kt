@@ -117,7 +117,7 @@ class RestoMapFragment : Fragment(), GoogleMap.OnMarkerClickListener,GoogleMap.O
                         val content = jsonResponse.getJSONObject("content")
                         val restaurantsJSONArray = content.getJSONArray("results")
                         for (i in 0 until restaurantsJSONArray.length()) {
-                            val restaurantJson = restaurantsJSONArray.getJSONObject(i);
+                            val restaurantJson = restaurantsJSONArray.getJSONObject(i)
                             val restaurant: Restaurant =
                                 Restaurant.fromJson(restaurantJson.toString())!!
                             restaurantArray.add(restaurant)
@@ -133,13 +133,14 @@ class RestoMapFragment : Fragment(), GoogleMap.OnMarkerClickListener,GoogleMap.O
     }
 
     private fun addRestaurantsMarker() {
+        googleMap!!.clear()
         for (restaurant in restaurantArray) {
             var marker: Marker
             var restaurantPos = LatLng(restaurant.location.latitude, restaurant.location.longitude)
             marker = googleMap!!.addMarker(
                 MarkerOptions().position(restaurantPos).icon(bitmapDescriptorFromVector(context!!,R.drawable.ic_pin_1)).title(restaurant.name)
             )
-            marker.tag = restaurant;
+            marker.tag = restaurant
         }
     }
 
@@ -175,13 +176,13 @@ class RestoMapFragment : Fragment(), GoogleMap.OnMarkerClickListener,GoogleMap.O
 
     override fun onMarkerClick(marker: Marker?): Boolean {
         marker!!.showInfoWindow()
-        marker!!.setIcon(bitmapDescriptorFromVector(context!!,R.drawable.ic_black_map_marker))
-        var restaurant :Restaurant = marker?.tag as Restaurant
+        marker.setIcon(bitmapDescriptorFromVector(context!!,R.drawable.ic_black_map_marker))
+        var restaurant :Restaurant = marker.tag as Restaurant
         viewFlipper.displayedChild = 1
         var nameTextView = restoInfoOverlay.findViewById<TextView>(R.id.restaurant_name_textview)
         var imageView = restoInfoOverlay.findViewById<ImageView>(R.id.restaurant_image_view)
         var distanceTextView = restoInfoOverlay.findViewById<TextView>(R.id.distance_textiview)
-        Picasso.get().load(restaurant.image).into(imageView);
+        Picasso.get().load(restaurant.image).into(imageView)
         nameTextView.text = restaurant.name
         distanceTextView.text = restaurant.distance.toString() + "km"
         return false
