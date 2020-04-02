@@ -6,4 +6,29 @@
     android:id="@+id/layoutProfil"
     android:background="@drawable/background_form_layerlist"
     >
+
+    <ImageView
+        android:id="@+id/imageViewKangarooo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="90dp"
+        app:srcCompat="@drawable/ic_australian_kangaroo_logo" />
+
+    <TextView
+        android:id="@+id/textViewKungry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/kungry"
+        android:textColor="#FFFFFF"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageViewKangarooo"
+        android:layout_marginTop="20dp"/>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

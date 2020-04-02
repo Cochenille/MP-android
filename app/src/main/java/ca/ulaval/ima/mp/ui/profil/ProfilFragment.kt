@@ -1,13 +1,15 @@
 package ca.ulaval.ima.mp.ui.profil
 
-import android.graphics.Bitmap
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import ca.ulaval.ima.mp.R
+
+
 
 class ProfilFragment : Fragment() {
 
