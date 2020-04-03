@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="30dp"
-        android:src="@drawable/ic_logo_kungry"
+        android:background="#FFFFFF"
+        app:srcCompat="@drawable/ic_logo_kungry"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -30,15 +31,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="80dp">
+            android:layout_marginRight="20dp">
 
             <include layout="@layout/petit_creux_map_overlay" />
             <include layout="@layout/restaurant_infos_overlay" />
 
         </ViewFlipper>
-
-
     </FrameLayout>
 
 </LinearLayout>

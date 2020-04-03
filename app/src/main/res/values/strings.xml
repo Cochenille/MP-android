@@ -6,4 +6,9 @@
     <string name="un_petit_creux">Un petit creux?</string>
     <string name="selectionnez_epingle">Sélectionnez une épingle afin d’obtenir plus de détails sur ce restaurant.</string>
     <string name="kungry">Kungry</string>
+    <string name="connexion">Connexion</string>
+    <string name="logoKungry">logo Kungry</string>
+    <string name="me_connecter">Me connecter</string>
+    <string name="nouveau">Nouveau avec Kungry?</string>
+    <string name="minscrire">" M'inscrire"</string>
 </resources>
