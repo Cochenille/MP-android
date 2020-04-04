@@ -17,6 +17,6 @@
 
     <fragment
         android:id="@+id/navigation_profil"
-        android:name="ca.ulaval.ima.mp.ui.profil.ProfilFragment"
-        tools:layout="@layout/fragment_profil" />
+        android:name="ca.ulaval.ima.mp.ui.profil.ConnexionFragment"
+        tools:layout="@layout/fragment_inscription" />
 </navigation>

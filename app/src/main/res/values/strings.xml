@@ -11,4 +11,7 @@
     <string name="me_connecter">Me connecter</string>
     <string name="nouveau">Nouveau avec Kungry?</string>
     <string name="minscrire">" M'inscrire"</string>
+    <string name="inscription">Inscription</string>
+    <string name="dejaabonne">Déjà abonnée?</string>
+    <string name="meconnecter">" Me connecter"</string>
 </resources>
