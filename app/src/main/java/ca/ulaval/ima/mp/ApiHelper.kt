@@ -8,6 +8,7 @@ import java.io.IOException
 class ApiHelper {
     val client: OkHttpClient =  OkHttpClient()
     val JSON = MediaType.parse("application/json; charset=utf-8")
+    var identificationToken = ""
 
 
     fun getRestaurantsWithinRadius(

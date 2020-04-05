@@ -14,4 +14,9 @@
     <string name="inscription">Inscription</string>
     <string name="dejaabonne">Déjà abonnée?</string>
     <string name="meconnecter">" Me connecter"</string>
+    <string name="moncompte">Mon compte</string>
+    <string name="nom">Nom</string>
+    <string name="courriel">Courriel</string>
+    <string name="nbreval">Nombre d\'évaluations attribuées</string>
+    <string name="deconexion">Déconnexion</string>
 </resources>

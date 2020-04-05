@@ -10,6 +10,7 @@ import androidx.core.app.ActivityCompat
 
 
 class MainActivity : AppCompatActivity() {
+    var identificationToken = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -26,5 +27,10 @@ class MainActivity : AppCompatActivity() {
         , 0)
 
     }
-
+    fun userIsLogged(): Boolean {
+        if(identificationToken == ""){
+            return false
+        }
+        return true
+    }
 }

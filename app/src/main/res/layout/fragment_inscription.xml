@@ -113,7 +113,7 @@
         app:layout_constraintTop_toBottomOf="@id/editTextCourriel" />
 
     <Button
-        android:id="@+id/buttonConnexion"
+        android:id="@+id/buttonInscription"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:text="@string/minscrire"
@@ -133,7 +133,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/buttonConnexion"
+        app:layout_constraintTop_toBottomOf="@id/buttonInscription"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         >
