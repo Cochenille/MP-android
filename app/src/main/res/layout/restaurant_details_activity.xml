@@ -11,7 +11,7 @@
         android:background="#FAFAFA">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/restaurant_image_view"
             android:layout_width="match_parent"
             android:layout_height="240dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -19,16 +19,16 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/restaurant_name_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="24dp"
             android:text="Restaurant_Name"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintTop_toBottomOf="@+id/restaurant_image_view" />
 
         <TextView
             android:id="@+id/textView3"
@@ -36,8 +36,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="Restaurant_type"
-            app:layout_constraintStart_toStartOf="@+id/textView2"
-            app:layout_constraintTop_toBottomOf="@id/textView2" />
+            app:layout_constraintStart_toStartOf="@+id/restaurant_name_textview"
+            app:layout_constraintTop_toBottomOf="@id/restaurant_name_textview" />
 
         <ImageView
             android:id="@+id/imageView3"
@@ -49,7 +49,7 @@
             app:srcCompat="@drawable/ic_pin_1" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/distance_textiview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
@@ -66,11 +66,11 @@
             android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
             android:numStars="5"
-            app:layout_constraintStart_toEndOf="@+id/textView4"
-            app:layout_constraintTop_toTopOf="@+id/textView4" />
+            app:layout_constraintStart_toEndOf="@+id/distance_textiview"
+            app:layout_constraintTop_toTopOf="@+id/distance_textiview" />
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/number_of_reviews_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Reviews"
@@ -78,7 +78,7 @@
             app:layout_constraintTop_toTopOf="@+id/stars_layout" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/phone_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -91,10 +91,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView5" />
+            app:layout_constraintTop_toBottomOf="@+id/number_of_reviews_textview" />
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/web_site_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -106,7 +106,7 @@
             android:text="@string/site_web_de_l_entreprise"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button2" />
+            app:layout_constraintTop_toBottomOf="@+id/phone_button" />
 
         <TextView
             android:id="@+id/textView6"
@@ -114,20 +114,20 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="Heures d'ouvertures"
-            app:layout_constraintStart_toStartOf="@+id/button4"
-            app:layout_constraintTop_toBottomOf="@+id/button4" />
+            app:layout_constraintStart_toStartOf="@+id/web_site_button"
+            app:layout_constraintTop_toBottomOf="@+id/web_site_button" />
 
         <TableLayout
+            android:id="@+id/table_layout"
             android:layout_width="match_parent"
-            android:background="#FFFFFF"
             android:layout_height="140dp"
-            android:stretchColumns="*"
             android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="13dp"
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="#FFFFFF"
+            android:stretchColumns="*"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView6">
@@ -162,8 +162,7 @@
                     android:layout_marginLeft="14dp"
                     android:text="Mercredi" />
 
-                <TextView
-                    android:text="Heure" />
+                <TextView android:text="Heure" />
             </TableRow>
 
             <TableRow
@@ -212,6 +211,32 @@
 
 
         </TableLayout>
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Lieu"
+            app:layout_constraintStart_toStartOf="@+id/table_layout"
+            app:layout_constraintTop_toBottomOf="@+id/table_layout" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:layout_marginStart="21dp"
+            android:layout_marginLeft="21dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="21dp"
+            android:layout_marginRight="21dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView4">
+
+            <include layout="@layout/map_view" />
+
+        </FrameLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

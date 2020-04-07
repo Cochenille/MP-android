@@ -6,7 +6,7 @@ import okhttp3.*
 import java.io.IOException
 
 class ApiHelper {
-    val client: OkHttpClient =  OkHttpClient()
+    val client: OkHttpClient = OkHttpClient()
     val JSON = MediaType.parse("application/json; charset=utf-8")
     var identificationToken = ""
 
@@ -16,8 +16,15 @@ class ApiHelper {
         latitude: Double?,
         longitude: Double?,
         radius: Int?,
-        callback:HttpCallback){
-        var URL = String.format("https://kungry.ca/api/v1/restaurant/search/?page=%d&latitude=%f&longitude=%f&radius=%d",page,latitude,longitude,radius)
+        callback: HttpCallback
+    ) {
+        var URL = String.format(
+            "https://kungry.ca/api/v1/restaurant/search/?page=%d&latitude=%f&longitude=%f&radius=%d",
+            page,
+            latitude,
+            longitude,
+            radius
+        )
         val request = Request.Builder()
             .url(URL)
             .build()
@@ -25,6 +32,33 @@ class ApiHelper {
             override fun onFailure(call: Call, e: IOException) {
                 e.printStackTrace()
             }
+
+            @Throws(IOException::class)
+            override fun onResponse(call: Call, response: Response) {
+                if (response.isSuccessful) {
+                    val mainHandler = Handler(
+                        Looper.getMainLooper()
+                    )
+                    mainHandler.post {
+                        callback.onSuccess(response)
+                    }
+                } else {
+                    callback.onFailure(response, null)
+                }
+            }
+        })
+    }
+
+    fun getRestaurantDetails(restaurandId: Long, callback: HttpCallback) {
+        var URL = String.format("https://kungry.ca/api/v1/restaurant/%d/", restaurandId)
+        val request = Request.Builder()
+            .url(URL)
+            .build()
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+            }
+
             @Throws(IOException::class)
             override fun onResponse(call: Call, response: Response) {
                 if (response.isSuccessful) {
@@ -56,7 +90,6 @@ class ApiHelper {
          */
         fun onSuccess(response: Response?)
     }
-
 
 
 }

@@ -197,6 +197,7 @@ class RestoMapFragment : Fragment(), GoogleMap.OnMarkerClickListener,GoogleMap.O
 
     private fun launchRestoDetailsActivity(id: Long) {
         val intent = Intent(context, RestoDetailsActivity::class.java)
+        intent.putExtra("restaurantId",id)
         startActivity(intent)
     }
 
