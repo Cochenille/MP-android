@@ -30,7 +30,7 @@ import org.json.JSONObject
 
 class RestoMapFragment : Fragment(), GoogleMap.OnMarkerClickListener,GoogleMap.OnInfoWindowCloseListener {
 
-    internal lateinit var mMapView: MapView
+    private lateinit var mMapView: MapView
     private lateinit var viewFlipper: ViewFlipper
     private lateinit var restoInfoOverlay: ConstraintLayout
 

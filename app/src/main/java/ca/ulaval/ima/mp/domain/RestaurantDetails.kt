@@ -57,7 +57,7 @@ data class Review (
     val creator: Creator,
     val stars: Long,
     val image: String? = null,
-    val comment: String,
+    val comment: String? = null,
     val date: String
 )
 
