@@ -11,6 +11,8 @@ import androidx.core.app.ActivityCompat
 
 class MainActivity : AppCompatActivity() {
     var identificationToken = ""
+    var clientId = "STO4WED2NTDDxjLs8ODios5M15HwsrRlydsMa1t0"
+    var clientSecret = "YOVWGpjSnHd5AYDxGBR2CIB09ZYM1OPJGnH3ijkKwrUMVvwLprUmLf6fxku06ClUKTAEl5AeZN36V9QYBYvTtrLMrtUtXVuXOGWleQGYyApC2a469l36TdlXFqAG1tpK"
 
     override fun onCreate(savedInstanceState: Bundle?) {
 

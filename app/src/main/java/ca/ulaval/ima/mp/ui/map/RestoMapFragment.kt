@@ -128,8 +128,6 @@ class RestoMapFragment : Fragment(), GoogleMap.OnMarkerClickListener,GoogleMap.O
                     }
                 }
             })
-
-
     }
 
     private fun addRestaurantsMarker() {
