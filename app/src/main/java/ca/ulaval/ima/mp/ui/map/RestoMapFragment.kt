@@ -1,6 +1,7 @@
 package ca.ulaval.ima.mp.ui.map
 
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -8,15 +9,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
-import android.widget.ViewFlipper
+import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import ca.ulaval.ima.mp.ApiHelper
 import ca.ulaval.ima.mp.R
+import ca.ulaval.ima.mp.RestoDetailsActivity
 import ca.ulaval.ima.mp.domain.Restaurant
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -50,6 +49,7 @@ class RestoMapFragment : Fragment(), GoogleMap.OnMarkerClickListener,GoogleMap.O
         mMapView = root.findViewById(R.id.mapView)
         viewFlipper = root.findViewById(R.id.map_overlay)
         restoInfoOverlay = root.findViewById(R.id.restaurant_info_overlay)
+
         mMapView.onCreate(savedInstanceState)
 
         mMapView.onResume() // needed to get the map to display immediately
@@ -182,10 +182,22 @@ class RestoMapFragment : Fragment(), GoogleMap.OnMarkerClickListener,GoogleMap.O
         var nameTextView = restoInfoOverlay.findViewById<TextView>(R.id.restaurant_name_textview)
         var imageView = restoInfoOverlay.findViewById<ImageView>(R.id.restaurant_image_view)
         var distanceTextView = restoInfoOverlay.findViewById<TextView>(R.id.distance_textiview)
+        var numberOfReviewTextView = restoInfoOverlay.findViewById<TextView>(R.id.number_of_reviews_textview)
+        var ratingBar = restoInfoOverlay.findViewById<RatingBar>(R.id.stars_layout)
         Picasso.get().load(restaurant.image).into(imageView)
         nameTextView.text = restaurant.name
-        distanceTextView.text = restaurant.distance.toString() + "km"
+        distanceTextView.text = String.format("%.2f km",restaurant.distance)
+        numberOfReviewTextView.text = String.format("(%d)",restaurant.reviewCount)
+        ratingBar.rating = restaurant.reviewAverage.toFloat()
+        restoInfoOverlay.setOnClickListener(View.OnClickListener {
+            launchRestoDetailsActivity(restaurant.id)
+        })
         return false
+    }
+
+    private fun launchRestoDetailsActivity(id: Long) {
+        val intent = Intent(context, RestoDetailsActivity::class.java)
+        startActivity(intent)
     }
 
     override fun onInfoWindowClose(marker: Marker?) {

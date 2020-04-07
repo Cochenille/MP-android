@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/restaurant_info_overlay"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="#FFFFFF">
 
     <ImageView
@@ -14,7 +14,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -33,11 +33,11 @@
         android:id="@+id/distance_textiview"
         android:layout_width="wrap_content"
         android:layout_height="14dp"
-        android:textSize="12sp"
         android:layout_marginEnd="14dp"
         android:layout_marginRight="14dp"
         android:includeFontPadding="false"
         android:text="Distance"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/restaurant_image_view"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -53,4 +53,26 @@
         app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/ic_pin_1"
         tools:ignore="VectorDrawableCompat" />
+
+    <TextView
+        android:id="@+id/number_of_reviews_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginBottom="10dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/stars_layout" />
+
+    <RatingBar
+        android:id="@+id/stars_layout"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="5"
+        app:layout_constraintBottom_toBottomOf="@+id/number_of_reviews_textview"
+        app:layout_constraintEnd_toStartOf="@+id/number_of_reviews_textview"
+        app:layout_constraintStart_toStartOf="@+id/restaurant_name_textview"
+        app:layout_constraintTop_toTopOf="@+id/number_of_reviews_textview" />
 </androidx.constraintlayout.widget.ConstraintLayout>

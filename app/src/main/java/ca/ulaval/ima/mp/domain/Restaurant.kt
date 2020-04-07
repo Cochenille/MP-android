@@ -8,6 +8,7 @@ data class Restaurant (
     val id: Long,
     val name: String,
     val cuisine: List<Cuisine>,
+    val type: String,
 
     @Json(name = "review_count")
     val reviewCount: Long,

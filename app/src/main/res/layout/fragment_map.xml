@@ -28,10 +28,11 @@
         <ViewFlipper
             android:id="@+id/map_overlay"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="80dp"
             android:layout_gravity="bottom"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp">
 
             <include layout="@layout/petit_creux_map_overlay" />
             <include layout="@layout/restaurant_infos_overlay" />
