@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/restaurant_info_overlay"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="#FFFFFF">
 
     <ImageView
@@ -13,7 +13,7 @@
         android:layout_height="60dp"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -60,10 +60,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginLeft="4dp"
-        android:layout_marginBottom="10dp"
         android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/stars_layout" />
+        app:layout_constraintStart_toEndOf="@+id/stars_layout"
+        app:layout_constraintTop_toTopOf="@+id/stars_layout" />
 
     <RatingBar
         android:id="@+id/stars_layout"
@@ -71,8 +70,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:numStars="5"
-        app:layout_constraintBottom_toBottomOf="@+id/number_of_reviews_textview"
+        app:layout_constraintBottom_toBottomOf="@+id/restaurant_image_view"
         app:layout_constraintEnd_toStartOf="@+id/number_of_reviews_textview"
-        app:layout_constraintStart_toStartOf="@+id/restaurant_name_textview"
-        app:layout_constraintTop_toTopOf="@+id/number_of_reviews_textview" />
+        app:layout_constraintStart_toStartOf="@+id/restaurant_name_textview" />
 </androidx.constraintlayout.widget.ConstraintLayout>
