@@ -48,6 +48,7 @@ class ConnexionFragment : Fragment() {
             transaction?.replace(R.id.nav_host_fragment, newfragment)
             transaction?.commit()
         }
+
         return root
     }
 

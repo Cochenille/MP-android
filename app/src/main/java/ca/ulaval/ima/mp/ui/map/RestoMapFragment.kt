@@ -14,6 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import ca.ulaval.ima.mp.ApiHelper
+import ca.ulaval.ima.mp.MainActivity
 import ca.ulaval.ima.mp.R
 import ca.ulaval.ima.mp.RestoDetailsActivity
 import ca.ulaval.ima.mp.domain.Restaurant
@@ -194,8 +195,10 @@ class RestoMapFragment : Fragment(), GoogleMap.OnMarkerClickListener,GoogleMap.O
     }
 
     private fun launchRestoDetailsActivity(id: Long) {
+        val activity = context as MainActivity
         val intent = Intent(context, RestoDetailsActivity::class.java)
         intent.putExtra("restaurantId",id)
+        intent.putExtra("token",activity.identificationToken)
         startActivity(intent)
     }
 

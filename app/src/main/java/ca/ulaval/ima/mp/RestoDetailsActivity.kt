@@ -8,10 +8,13 @@ import android.graphics.Canvas
 import android.location.Geocoder
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import ca.ulaval.ima.mp.domain.RestaurantDetails
+import ca.ulaval.ima.mp.ui.profil.InscriptionFragment
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -31,6 +34,7 @@ class RestoDetailsActivity : AppCompatActivity() {
     private var googleMap: GoogleMap? = null
     private var geocoder: Geocoder? = null
     private var address: String? = null
+    var identificationToken : String? = ""
 
 
     private lateinit var mapView: MapView
@@ -40,11 +44,37 @@ class RestoDetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.restaurant_details_activity)
         val restaurantId = intent.getLongExtra("restaurantId", 0)
-        geocoder = Geocoder(this, Locale.getDefault());
+        val token = intent.getStringExtra("token")
+
+        identificationToken = token
+        geocoder = Geocoder(this, Locale.getDefault())
         getRestaurantDetails(restaurantId)
         mapView = findViewById<MapView>(R.id.mapView)
         mapView.onCreate(savedInstanceState)
         mapView.onResume()
+
+        //affiche le bon bouton en fonction de si l'usager est connecté ou non
+        val buttonBasDePage = findViewById<Button>(R.id.buttonConnexion)
+        val textViewLaisserEval = findViewById<TextView>(R.id.textViewConnexionLabel)
+        textViewLaisserEval.visibility = View.VISIBLE
+
+        if( identificationToken != null && identificationToken != ""){
+            buttonBasDePage.text = "Laisser une évaluation"
+            buttonBasDePage.setBackgroundResource(R.drawable.custom_rounded_button_black)
+            buttonBasDePage.setOnClickListener {
+                val intent = Intent(this, NewEvalActivity::class.java)
+                intent.putExtra("token",identificationToken)
+                startActivity(intent)
+            }
+            textViewLaisserEval.visibility = View.INVISIBLE
+        }else{
+            buttonBasDePage.setOnClickListener {
+                val intent = Intent(this, MainActivity::class.java)
+                intent.putExtra("gotoConnexion","true")
+                startActivity(intent)
+            }
+        }
+
 
 
     }
@@ -158,14 +188,14 @@ class RestoDetailsActivity : AppCompatActivity() {
                             restaurantDetails!!.location.latitude,
                             restaurantDetails!!.location.longitude,
                             1
-                        );
+                        )
                         address = addresses.get(0)
                             .getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
 
-                        val city: String = addresses.get(0).getLocality()
-                        val state: String = addresses.get(0).getAdminArea()
-                        val country: String = addresses.get(0).getCountryName()
-                        val postalCode: String = addresses.get(0).getPostalCode()
+                        val city: String = addresses.get(0).locality
+                        val state: String = addresses.get(0).adminArea
+                        val country: String = addresses.get(0).countryName
+                        val postalCode: String = addresses.get(0).postalCode
                         setViewContent()
                         setMapView()
                     } catch (e: JSONException) {

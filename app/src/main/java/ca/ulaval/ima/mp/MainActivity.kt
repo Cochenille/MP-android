@@ -7,6 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
+import ca.ulaval.ima.mp.ui.profil.ConnexionFragment
+import ca.ulaval.ima.mp.ui.profil.InscriptionFragment
 
 
 class MainActivity : AppCompatActivity() {
@@ -21,13 +25,19 @@ class MainActivity : AppCompatActivity() {
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
         val navController = findNavController(R.id.nav_host_fragment)
-        navView.setupWithNavController(navController)
+
 
         ActivityCompat.requestPermissions(this, arrayOf(
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION)
         , 0)
 
+        val gotoConnexion = intent.getStringExtra("gotoConnexion")
+
+        if(gotoConnexion != null){
+            navController.navigate(R.id.navigation_profil)
+        }
+        navView.setupWithNavController(navController)
     }
     fun userIsLogged(): Boolean {
         if(identificationToken == ""){

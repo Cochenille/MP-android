@@ -46,7 +46,6 @@ class InscriptionFragment : Fragment() {
             val email = root?.findViewById<EditText>(R.id.editTextCourriel)?.text.toString()
             val password = root?.findViewById<EditText>(R.id.editTextPassword)?.text.toString()
             createUser(prenom,nom,email,password)
-
         }
         return root
     }

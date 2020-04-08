@@ -20,4 +20,14 @@
     <string name="nbreval">Nombre d\'évaluations attribuées</string>
     <string name="deconexion">Déconnexion</string>
     <string name="site_web_de_l_entreprise">Site web de l\'entreprise</string>
+
+    <string name="title_activity_new_eval">NewEvalActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="eval">Évaluation</string>
+    <string name="commentaire">Commentaire</string>
+    <string name="facultatif">(facultatif)</string>
+    <string name="ajouter">Ajouter une photo</string>
+    <string name="soumettre">Soumettre</string>
+    <string name="laisseruneeval">Pour laisser une évaluation, connectez-vous.</string>
 </resources>
