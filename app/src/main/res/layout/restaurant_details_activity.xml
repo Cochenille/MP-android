@@ -140,7 +140,9 @@
                     android:layout_marginLeft="14dp"
                     android:text="Lundi" />
 
-                <TextView android:text="Heure" />
+                <TextView
+                    android:id="@+id/monday_hours"
+                    android:text="Heure" />
             </TableRow>
 
             <TableRow
@@ -151,7 +153,9 @@
                     android:layout_marginLeft="14dp"
                     android:text="Mardi" />
 
-                <TextView android:text="Heure" />
+                <TextView
+                    android:id="@+id/tuesday_hours"
+                    android:text="Heure" />
             </TableRow>
 
             <TableRow
@@ -162,7 +166,9 @@
                     android:layout_marginLeft="14dp"
                     android:text="Mercredi" />
 
-                <TextView android:text="Heure" />
+                <TextView
+                    android:id="@+id/wednesday_hours"
+                    android:text="Heure" />
             </TableRow>
 
             <TableRow
@@ -173,7 +179,9 @@
                     android:layout_marginLeft="14dp"
                     android:text="Jeudi" />
 
-                <TextView android:text="Heure" />
+                <TextView
+                    android:id="@+id/thursday_hours"
+                    android:text="Heure" />
             </TableRow>
 
             <TableRow
@@ -184,7 +192,9 @@
                     android:layout_marginLeft="14dp"
                     android:text="Vendredi" />
 
-                <TextView android:text="Heure" />
+                <TextView
+                    android:id="@+id/friday_hours"
+                    android:text="Heure" />
             </TableRow>
 
             <TableRow
@@ -195,7 +205,9 @@
                     android:layout_marginLeft="14dp"
                     android:text="Samedi" />
 
-                <TextView android:text="Heure" />
+                <TextView
+                    android:id="@+id/saturday_hours"
+                    android:text="Heure" />
             </TableRow>
 
             <TableRow
@@ -206,7 +218,9 @@
                     android:layout_marginLeft="14dp"
                     android:text="Dimanche" />
 
-                <TextView android:text="Heure" />
+                <TextView
+                    android:id="@+id/sunday_hours"
+                    android:text="Heure" />
             </TableRow>
 
 
@@ -246,9 +260,10 @@
             android:layout_marginTop="24dp"
             android:text="Évaluations"
             app:layout_constraintStart_toStartOf="@+id/frameLayout"
-            app:layout_constraintTop_toBottomOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/mapview_footer" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mapview_footer"
             android:layout_width="match_parent"
             android:layout_height="44dp"
             android:layout_marginStart="20dp"
@@ -270,6 +285,16 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_pin_1" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_marginLeft="6dp"
+            android:text="TextView"
+            app:layout_constraintStart_toEndOf="@+id/textView5"
+            app:layout_constraintTop_toTopOf="@+id/textView5" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

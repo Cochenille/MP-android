@@ -11,15 +11,13 @@ class ApiHelper {
 
 
     fun getRestaurantsWithinRadius(
-        page: Int?,
         latitude: Double?,
         longitude: Double?,
         radius: Int?,
         callback: HttpCallback
     ) {
         var URL = String.format(
-            "https://kungry.ca/api/v1/restaurant/search/?page=%d&latitude=%f&longitude=%f&radius=%d",
-            page,
+            "https://kungry.ca/api/v1/restaurant/search/?latitude=%f&longitude=%f&radius=%d",
             latitude,
             longitude,
             radius
@@ -73,12 +71,14 @@ class ApiHelper {
             }
         })
     }
+
     fun login(
         username: String?,
         password: String?,
         clientId: String?,
         clientSecret: String?,
-        callback:HttpCallback){
+        callback: HttpCallback
+    ) {
 
         val formBody: RequestBody = FormBody.Builder()
             .add("client_id", clientId)
@@ -96,6 +96,7 @@ class ApiHelper {
             override fun onFailure(call: Call, e: IOException) {
                 e.printStackTrace()
             }
+
             @Throws(IOException::class)
             override fun onResponse(call: Call, response: Response) {
                 if (response.isSuccessful) {
@@ -111,6 +112,7 @@ class ApiHelper {
             }
         })
     }
+
     fun createUser(
         nom: String?,
         prenom: String?,
@@ -118,7 +120,8 @@ class ApiHelper {
         password: String?,
         clientId: String?,
         clientSecret: String?,
-        callback:HttpCallback){
+        callback: HttpCallback
+    ) {
 
         val formBody: RequestBody = FormBody.Builder()
             .add("client_id", clientId)
@@ -138,6 +141,7 @@ class ApiHelper {
             override fun onFailure(call: Call, e: IOException) {
                 e.printStackTrace()
             }
+
             @Throws(IOException::class)
             override fun onResponse(call: Call, response: Response) {
                 if (response.isSuccessful) {
@@ -153,17 +157,19 @@ class ApiHelper {
             }
         })
     }
-    fun getUserInfo(token:String?, callback:HttpCallback){
+
+    fun getUserInfo(token: String?, callback: HttpCallback) {
 
         val request = Request.Builder()
             .url("https://kungry.ca/api/v1/account/me/")
-            .header("Authorization",  "Bearer "+token)
+            .header("Authorization", "Bearer " + token)
             .build()
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 e.printStackTrace()
             }
+
             @Throws(IOException::class)
             override fun onResponse(call: Call, response: Response) {
                 if (response.isSuccessful) {
@@ -179,17 +185,23 @@ class ApiHelper {
             }
         })
     }
-    fun getUserReview(pageNo: Int,reviewByPage: Int, token:String?, callback:HttpCallback){
-        var URL = String.format("https://kungry.ca/api/v1/review/mine/?page=%d&page_size=%d",pageNo,reviewByPage)
+
+    fun getUserReview(pageNo: Int, reviewByPage: Int, token: String?, callback: HttpCallback) {
+        var URL = String.format(
+            "https://kungry.ca/api/v1/review/mine/?page=%d&page_size=%d",
+            pageNo,
+            reviewByPage
+        )
         val request = Request.Builder()
             .url(URL)
-            .header("Authorization",  "Bearer "+token)
+            .header("Authorization", "Bearer " + token)
             .build()
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 e.printStackTrace()
             }
+
             @Throws(IOException::class)
             override fun onResponse(call: Call, response: Response) {
                 if (response.isSuccessful) {
@@ -205,7 +217,6 @@ class ApiHelper {
             }
         })
     }
-
 
 
     interface HttpCallback {

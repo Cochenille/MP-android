@@ -98,8 +98,8 @@ class RestoMapFragment : Fragment(), GoogleMap.OnMarkerClickListener,GoogleMap.O
     }
 
     private fun getRestaurants() {
+        //TODO: Replace this position by dynamic postion
         apiHelper.getRestaurantsWithinRadius(
-            1,
             46.781918,
             -71.274810,
             30,
