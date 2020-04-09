@@ -2,6 +2,7 @@ package ca.ulaval.ima.mp
 
 import android.os.Handler
 import android.os.Looper
+import androidx.appcompat.widget.AppCompatImageView
 import okhttp3.*
 import java.io.IOException
 
@@ -195,6 +196,39 @@ class ApiHelper {
         val request = Request.Builder()
             .url(URL)
             .header("Authorization", "Bearer " + token)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+            }
+
+            @Throws(IOException::class)
+            override fun onResponse(call: Call, response: Response) {
+                if (response.isSuccessful) {
+                    val mainHandler = Handler(
+                        Looper.getMainLooper()
+                    )
+                    mainHandler.post {
+                        callback.onSuccess(response)
+                    }
+                } else {
+                    callback.onFailure(response, null)
+                }
+            }
+        })
+    }
+    fun submitReview(restoId: Int?, note: Int?,commentaire: String,token: String?, callback: HttpCallback) {
+
+        val formBody: RequestBody = FormBody.Builder()
+            .add("restaurant_id", restoId.toString())
+            .add("stars", note.toString())
+            .add("comments", commentaire)
+            .build()
+        val request = Request.Builder()
+            .url("https://kungry.ca/api/v1/review/")
+            .header("Authorization", "Bearer " + token)
+            .post(formBody)
             .build()
 
         client.newCall(request).enqueue(object : Callback {

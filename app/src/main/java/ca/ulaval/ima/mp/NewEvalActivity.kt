@@ -1,11 +1,33 @@
 package ca.ulaval.ima.mp
 
-import androidx.appcompat.app.AppCompatActivity
+import android.Manifest
+import android.R.attr.bitmap
+import android.app.Activity
+import android.app.PendingIntent.getActivity
+import android.content.Intent
+import android.database.Cursor
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
-import ca.ulaval.ima.mp.R
 import android.os.Handler
-import android.view.View
+import android.os.Looper
+import android.provider.MediaStore
+import android.widget.EditText
+import android.widget.RatingBar
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
+import ca.ulaval.ima.mp.ui.profil.MonProfilFragment
+import kotlinx.android.synthetic.main.fragment_inscription.view.*
 import kotlinx.android.synthetic.main.new_eval_activity.*
+import okhttp3.Response
+import org.json.JSONException
+import org.json.JSONObject
+import java.io.IOException
+
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -13,14 +35,87 @@ import kotlinx.android.synthetic.main.new_eval_activity.*
  */
 class NewEvalActivity : AppCompatActivity() {
     var identificationToken : String? = ""
+    var restoId = 0
+    private val PICK_FROM_GALLERY = 1
+    private var apiHelper: ApiHelper = ApiHelper()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.new_eval_activity)
         val token = intent.getStringExtra("token")
+        val getRestoId = intent.getLongExtra("restoId",0)
 
+        restoId = getRestoId.toInt()
         identificationToken = token
+
+        val galleryButton: AppCompatImageView = findViewById<AppCompatImageView>(R.id.addImg)
+        //bouton d'ajout d'image
+        galleryButton.setOnClickListener {
+
+            ActivityCompat.requestPermissions(
+                this, arrayOf(
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                )
+                , 0
+            )
+            val galleryIntent = Intent(
+                Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            )
+            // Start the Intent
+            startActivityForResult(galleryIntent, PICK_FROM_GALLERY)
+        }
+
+        //bouton soumettre
+        buttonSoumettreEval.setOnClickListener {
+            //TODO : validation de formulaire
+            val note = findViewById<RatingBar>(R.id.stars_layout)?.numStars
+            val commentaire = findViewById<EditText>(R.id.editTextCommentaire)?.text.toString()
+            val photo = findViewById<AppCompatImageView>(R.id.addImg)
+            submitReview(note,commentaire,photo)
+        }
+
     }
 
+    private fun submitReview(note: Int?, commentaire: String, photo: AppCompatImageView?) {
 
+        //premier appel pour la note et le commentaire
+        apiHelper.submitReview(restoId,
+            note,
+            commentaire,
+            identificationToken,
+            object : ApiHelper.HttpCallback {
+                override fun onFailure(
+                    response: Response?,
+                    throwable: Throwable?
+                ) {
+                    val mainHandler = Handler(Looper.getMainLooper())
+                    mainHandler.post {
+                        val text: CharSequence = "connexion invalide"
+                        val duration = Toast.LENGTH_LONG
+                        val toast = Toast.makeText(this@NewEvalActivity, text, duration)
+                        toast.show()
+                    }
+                }
+                override fun onSuccess(response: Response?) {
+                    try {
+                        val jsonResponse = JSONObject(response!!.body()!!.string())
+                        val jsonContent = jsonResponse.getJSONObject("content")
+                        val reviewId = jsonContent.getString("id")
+                        //TODO si photo non-null on fait une deuxieme post
+
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    }
+                }
+            })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (resultCode == Activity.RESULT_OK && requestCode == PICK_FROM_GALLERY){
+            val galleryButton: AppCompatImageView = findViewById<AppCompatImageView>(R.id.addImg)
+            galleryButton.setImageURI(data?.data)
+        }
+    }
 }

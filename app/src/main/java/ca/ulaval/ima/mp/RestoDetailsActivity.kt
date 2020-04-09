@@ -1,5 +1,6 @@
 package ca.ulaval.ima.mp
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -12,9 +13,7 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import ca.ulaval.ima.mp.domain.RestaurantDetails
-import ca.ulaval.ima.mp.ui.profil.InscriptionFragment
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -28,7 +27,7 @@ import java.util.*
 
 class RestoDetailsActivity : AppCompatActivity() {
 
-
+    val requestcode : Int = 0
     private var apiHelper: ApiHelper = ApiHelper()
     private var restaurantDetails: RestaurantDetails? = null
     private var googleMap: GoogleMap? = null
@@ -62,8 +61,10 @@ class RestoDetailsActivity : AppCompatActivity() {
             buttonBasDePage.text = "Laisser une évaluation"
             buttonBasDePage.setBackgroundResource(R.drawable.custom_rounded_button_black)
             buttonBasDePage.setOnClickListener {
+
                 val intent = Intent(this, NewEvalActivity::class.java)
                 intent.putExtra("token",identificationToken)
+                intent.putExtra("restoId",restaurantId)
                 startActivity(intent)
             }
             textViewLaisserEval.visibility = View.INVISIBLE
@@ -71,14 +72,22 @@ class RestoDetailsActivity : AppCompatActivity() {
             buttonBasDePage.setOnClickListener {
                 val intent = Intent(this, MainActivity::class.java)
                 intent.putExtra("gotoConnexion","true")
+                startActivityForResult(intent,requestcode)
+            }
+        }
+    }
+    override fun onActivityResult(
+        requestCode: Int, resultCode: Int,
+        data: Intent?
+    ) {
+        if (requestCode == this.requestcode) {
+            if (resultCode == Activity.RESULT_OK) {
+                val intent = Intent(this, NewEvalActivity::class.java)
+                intent.putExtra("token",identificationToken)
                 startActivity(intent)
             }
         }
-
-
-
     }
-
     private fun setViewContent() {
         val nameTextView = findViewById<TextView>(R.id.restaurant_name_textview)
         val imageView = findViewById<ImageView>(R.id.restaurant_image_view)

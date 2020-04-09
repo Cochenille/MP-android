@@ -1,5 +1,7 @@
 package ca.ulaval.ima.mp.ui.profil
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -48,7 +50,6 @@ class ConnexionFragment : Fragment() {
             transaction?.replace(R.id.nav_host_fragment, newfragment)
             transaction?.commit()
         }
-
         return root
     }
 
@@ -77,10 +78,18 @@ class ConnexionFragment : Fragment() {
                         val jsonResponse = JSONObject(response!!.body()!!.string())
                         val jsonContent = jsonResponse.getJSONObject("content")
                         acc?.identificationToken = jsonContent.getString("access_token")
-                        val newfragment: Fragment = MonProfilFragment()
-                        val transaction = fragmentManager?.beginTransaction()
-                        transaction?.replace(R.id.nav_host_fragment, newfragment)
-                        transaction?.commit()
+                        if(acc!!.gottagoback){
+                            val intent = Intent()
+                            intent.putExtra("token", jsonContent.getString("access_token"))
+                            acc.setResult(RESULT_OK, intent)
+                            acc.finish()
+                        }
+                        else{
+                            val newfragment: Fragment = MonProfilFragment()
+                            val transaction = fragmentManager?.beginTransaction()
+                            transaction?.replace(R.id.nav_host_fragment, newfragment)
+                            transaction?.commit()
+                        }
 
                     } catch (e: JSONException) {
                         e.printStackTrace()
