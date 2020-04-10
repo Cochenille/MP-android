@@ -13,10 +13,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_logo_kungry"/>
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/restaurants_recycleView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="vertical"
         app:layout_constraintTop_toBottomOf="@+id/logo" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

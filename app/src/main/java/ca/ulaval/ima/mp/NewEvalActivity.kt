@@ -75,10 +75,10 @@ class NewEvalActivity : AppCompatActivity() {
         //bouton soumettre
         buttonSoumettreEval.setOnClickListener {
             //TODO : validation de formulaire
-            val note = findViewById<RatingBar>(R.id.stars_layout)?.numStars
+            val note = findViewById<RatingBar>(R.id.stars_layout)?.rating
             val commentaire = findViewById<EditText>(R.id.editTextCommentaire)?.text.toString()
             val photo = findViewById<AppCompatImageView>(R.id.addImg)
-            submitReview(note,commentaire,photo)
+            submitReview(note?.toInt(),commentaire,photo)
         }
 
         backButton.setOnClickListener {
@@ -148,7 +148,9 @@ class NewEvalActivity : AppCompatActivity() {
                     try {
                         val mainHandler = Handler(Looper.getMainLooper())
                         mainHandler.post {
-                            val text: CharSequence = "fuckyea"
+                            val jsonResponse = JSONObject(response!!.body()!!.string())
+                            val jsonContent = jsonResponse.getJSONObject("content")
+                            val text: CharSequence = "Votre évaluation a été soumise avec succès"
                             val duration = Toast.LENGTH_LONG
                             val toast = Toast.makeText(this@NewEvalActivity, text, duration)
                             toast.show()

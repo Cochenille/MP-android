@@ -243,7 +243,7 @@ class ApiHelper {
         val formBody: RequestBody = FormBody.Builder()
             .add("restaurant_id", restoId.toString())
             .add("stars", note.toString())
-            .add("comments", commentaire)
+            .add("comment", commentaire)
             .build()
         val request = Request.Builder()
             .url("https://kungry.ca/api/v1/review/")
