@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ca.ulaval.ima.mp.ApiHelper
@@ -16,6 +18,7 @@ import ca.ulaval.ima.mp.domain.Restaurant
 import okhttp3.Response
 import org.json.JSONException
 import org.json.JSONObject
+
 
 class NearListFragment : Fragment() {
     private lateinit var recycledView: RecyclerView
@@ -43,11 +46,10 @@ class NearListFragment : Fragment() {
     }
 
     private fun getRestaurants() {
-        //TODO: Replace this position by dynamic postion
         apiHelper.getRestaurantsWithinRadius(
             acc!!.currentPosition.latitude,
             acc!!.currentPosition.longitude,
-            30,
+            10000,
             object : ApiHelper.HttpCallback {
                 override fun onFailure(
                     response: Response?,
@@ -69,7 +71,16 @@ class NearListFragment : Fragment() {
                         }
                         adapter = RestaurantsRecyclerViewAdapter(restaurantArray)
                         recycledView.adapter = adapter
-                        adapter.setOnItemClickListener(object : RestaurantsRecyclerViewAdapter.OnItemClickListener{
+                        val horizontalDecoration = DividerItemDecoration(
+                            recycledView.getContext(),
+                            DividerItemDecoration.VERTICAL
+                        )
+                        val horizontalDivider =
+                            ContextCompat.getDrawable(activity!!, R.drawable.horizontal_divider)
+                        horizontalDecoration.setDrawable(horizontalDivider!!)
+                        recycledView.addItemDecoration(horizontalDecoration)
+                        adapter.setOnItemClickListener(object :
+                            RestaurantsRecyclerViewAdapter.OnItemClickListener {
                             override fun onItemClick(restaurant: Restaurant?) {
                                 launchRestoDetails(restaurant!!.id)
                             }
@@ -87,8 +98,8 @@ class NearListFragment : Fragment() {
         val intent = Intent(context, RestoDetailsActivity::class.java)
         intent.putExtra("restaurantId", restaurantId)
         intent.putExtra("token", activity.identificationToken)
-        intent.putExtra("latitude",acc!!.currentPosition.latitude)
-        intent.putExtra("longitude",acc!!.currentPosition.longitude)
+        intent.putExtra("latitude", acc!!.currentPosition.latitude)
+        intent.putExtra("longitude", acc!!.currentPosition.longitude)
         startActivity(intent)
     }
 }

@@ -41,7 +41,7 @@ class RestaurantsRecyclerViewAdapter(myDataset: ArrayList<Restaurant>) :
     ): ViewHolder {
         // create a new view
         val v: View = LayoutInflater.from(parent.context)
-            .inflate(R.layout.restaurant_infos_overlay, parent, false)
+            .inflate(R.layout.resto_row_items, parent, false)
         return ViewHolder(v)
     }
 

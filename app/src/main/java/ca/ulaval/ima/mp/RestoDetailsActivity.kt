@@ -13,7 +13,11 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import ca.ulaval.ima.mp.domain.RestaurantDetails
+import ca.ulaval.ima.mp.ui.nearList.RestaurantsRecyclerViewAdapter
+import ca.ulaval.ima.mp.ui.nearList.ReviewRecyclerViewAdapter
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -31,11 +35,11 @@ class RestoDetailsActivity : AppCompatActivity() {
     private var apiHelper: ApiHelper = ApiHelper()
     private var restaurantDetails: RestaurantDetails? = null
     private var googleMap: GoogleMap? = null
-    private var geocoder: Geocoder? = null
     private var currentPosition: LatLng? = null
     var identificationToken: String? = ""
-
-
+    private lateinit var recycledView: RecyclerView
+    private lateinit var layoutManager: RecyclerView.LayoutManager
+    private lateinit var adapter: ReviewRecyclerViewAdapter
     private lateinit var mapView: MapView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,9 +53,12 @@ class RestoDetailsActivity : AppCompatActivity() {
         currentPosition = LatLng(latitude, longitude)
 
         identificationToken = token
-        geocoder = Geocoder(this, Locale.getDefault())
+        recycledView = findViewById(R.id.review_recyclerview)
+        layoutManager = LinearLayoutManager(this)
+        recycledView.layoutManager = layoutManager
+
         getRestaurantDetails(restaurantId)
-        mapView = findViewById<MapView>(R.id.mapView)
+        mapView = findViewById(R.id.mapView)
         mapView.onCreate(savedInstanceState)
         mapView.onResume()
 
@@ -101,10 +108,16 @@ class RestoDetailsActivity : AppCompatActivity() {
         val ratingBar = findViewById<RatingBar>(R.id.stars_layout)
         val phoneButton = findViewById<Button>(R.id.phone_button)
         val webSiteButton = findViewById<Button>(R.id.web_site_button)
+        val typeCuisineTextView = findViewById<TextView>(R.id.type_cuisine_textview)
+        val reviewCountTextView = findViewById<TextView>(R.id.review_count_textview)
 
 
         Picasso.get().load(restaurantDetails?.image).fit().into(imageView)
         nameTextView.text = restaurantDetails?.name
+        typeCuisineTextView.text = String.format(
+            "%s • %s", restaurantDetails?.type,
+            restaurantDetails?.cuisine?.get(0)?.name
+        )
         distanceTextView.text = String.format("%.2f km", restaurantDetails?.distance)
         numberOfReviewTextView.text = String.format("(%d)", restaurantDetails?.reviewCount)
         ratingBar.rating = restaurantDetails?.reviewAverage!!.toFloat()
@@ -119,6 +132,7 @@ class RestoDetailsActivity : AppCompatActivity() {
                 Intent(Intent.ACTION_VIEW, Uri.parse(restaurantDetails!!.website))
             startActivity(browserIntent)
         }
+        reviewCountTextView.text = String.format("(%d)", restaurantDetails!!.reviewCount)
         setOpeningHours()
 
 
@@ -185,7 +199,6 @@ class RestoDetailsActivity : AppCompatActivity() {
         }
     }
 
-
     private fun getRestaurantDetails(restaurantId: Long) {
         apiHelper.getRestaurantDetails(restaurantId,
             currentPosition!!.latitude,
@@ -202,11 +215,17 @@ class RestoDetailsActivity : AppCompatActivity() {
                             RestaurantDetails.fromJson(jsonRestaurantDetails.toString())!!
                         setViewContent()
                         setMapView()
+                        setRecycledView()
                     } catch (e: JSONException) {
                         e.printStackTrace()
                     }
                 }
             })
+    }
+
+    private fun setRecycledView() {
+        adapter = ReviewRecyclerViewAdapter(restaurantDetails!!.reviews)
+        recycledView.adapter = adapter
     }
 
     private fun bitmapDescriptorFromVector(context: Context, vectorResId: Int): BitmapDescriptor? {
