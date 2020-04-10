@@ -7,13 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import ca.ulaval.ima.mp.ApiHelper
 import ca.ulaval.ima.mp.MainActivity
 import ca.ulaval.ima.mp.R
-import kotlinx.android.synthetic.main.fragment_connexion.view.*
 import kotlinx.android.synthetic.main.fragment_inscription.view.*
 import okhttp3.Response
 import org.json.JSONException

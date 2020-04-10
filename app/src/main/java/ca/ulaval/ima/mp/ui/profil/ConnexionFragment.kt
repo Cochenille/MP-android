@@ -41,10 +41,15 @@ class ConnexionFragment : Fragment() {
         }
 
         root.buttonConnexion.setOnClickListener {
-            login(root.editTextCourriel.text.toString(), root.editTextPassword.text.toString(), activity.clientId, activity.clientSecret)
+            login(
+                root.editTextCourriel.text.toString(),
+                root.editTextPassword.text.toString(),
+                activity.clientId,
+                activity.clientSecret
+            )
         }
         //si l'usager est déjà connecté on passe direct à son profil
-        if(activity.userIsLogged()) {
+        if (activity.userIsLogged()) {
             val newfragment: Fragment = MonProfilFragment()
             val transaction = fragmentManager?.beginTransaction()
             transaction?.replace(R.id.nav_host_fragment, newfragment)
@@ -53,7 +58,12 @@ class ConnexionFragment : Fragment() {
         return root
     }
 
-    private fun login(username: String?, password: String?, clientId: String?, clientSecret: String?) {
+    private fun login(
+        username: String?,
+        password: String?,
+        clientId: String?,
+        clientSecret: String?
+    ) {
         val acc = activity as MainActivity?
         apiHelper.login(
             username,
@@ -73,18 +83,18 @@ class ConnexionFragment : Fragment() {
                         toast.show()
                     }
                 }
+
                 override fun onSuccess(response: Response?) {
                     try {
                         val jsonResponse = JSONObject(response!!.body()!!.string())
                         val jsonContent = jsonResponse.getJSONObject("content")
                         acc?.identificationToken = jsonContent.getString("access_token")
-                        if(acc!!.gottagoback){
+                        if (acc!!.gottagoback) {
                             val intent = Intent()
                             intent.putExtra("token", jsonContent.getString("access_token"))
                             acc.setResult(RESULT_OK, intent)
                             acc.finish()
-                        }
-                        else{
+                        } else {
                             val newfragment: Fragment = MonProfilFragment()
                             val transaction = fragmentManager?.beginTransaction()
                             transaction?.replace(R.id.nav_host_fragment, newfragment)

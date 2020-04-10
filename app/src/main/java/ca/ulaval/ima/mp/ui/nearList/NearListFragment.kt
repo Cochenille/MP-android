@@ -1,5 +1,6 @@
 package ca.ulaval.ima.mp.ui.nearList
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ca.ulaval.ima.mp.ApiHelper
+import ca.ulaval.ima.mp.MainActivity
 import ca.ulaval.ima.mp.R
+import ca.ulaval.ima.mp.RestoDetailsActivity
 import ca.ulaval.ima.mp.domain.Restaurant
 import okhttp3.Response
 import org.json.JSONException
@@ -18,6 +21,7 @@ class NearListFragment : Fragment() {
     private lateinit var recycledView: RecyclerView
     private lateinit var layoutManager: RecyclerView.LayoutManager
     private lateinit var adapter: RestaurantsRecyclerViewAdapter
+    private var acc: MainActivity? = null
     private var apiHelper: ApiHelper = ApiHelper()
     private var restaurantArray = ArrayList<Restaurant>()
 
@@ -33,6 +37,7 @@ class NearListFragment : Fragment() {
 
         layoutManager = LinearLayoutManager(this.context)
         recycledView.layoutManager = layoutManager
+        acc = activity as MainActivity?
         getRestaurants()
         return root
     }
@@ -40,8 +45,8 @@ class NearListFragment : Fragment() {
     private fun getRestaurants() {
         //TODO: Replace this position by dynamic postion
         apiHelper.getRestaurantsWithinRadius(
-            46.781918,
-            -71.274810,
+            acc!!.currentPosition.latitude,
+            acc!!.currentPosition.longitude,
             30,
             object : ApiHelper.HttpCallback {
                 override fun onFailure(
@@ -64,10 +69,26 @@ class NearListFragment : Fragment() {
                         }
                         adapter = RestaurantsRecyclerViewAdapter(restaurantArray)
                         recycledView.adapter = adapter
+                        adapter.setOnItemClickListener(object : RestaurantsRecyclerViewAdapter.OnItemClickListener{
+                            override fun onItemClick(restaurant: Restaurant?) {
+                                launchRestoDetails(restaurant!!.id)
+                            }
+
+                        })
                     } catch (e: JSONException) {
                         e.printStackTrace()
                     }
                 }
             })
+    }
+
+    private fun launchRestoDetails(restaurantId: Long) {
+        val activity = context as MainActivity
+        val intent = Intent(context, RestoDetailsActivity::class.java)
+        intent.putExtra("restaurantId", restaurantId)
+        intent.putExtra("token", activity.identificationToken)
+        intent.putExtra("latitude",acc!!.currentPosition.latitude)
+        intent.putExtra("longitude",acc!!.currentPosition.longitude)
+        startActivity(intent)
     }
 }

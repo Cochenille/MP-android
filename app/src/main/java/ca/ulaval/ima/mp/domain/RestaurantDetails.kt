@@ -8,7 +8,7 @@ import com.beust.klaxon.*
 
 private val klaxon = Klaxon()
 
-data class RestaurantDetails (
+data class RestaurantDetails(
     val id: Long,
     val cuisine: List<Cuisine>,
     val distance: Double,
@@ -40,19 +40,19 @@ data class RestaurantDetails (
     }
 }
 
-data class OpeningHour (
+data class OpeningHour(
     val id: Long,
 
     @Json(name = "opening_hour")
-    val openingHour: String,
+    val openingHour: String? = null,
 
     @Json(name = "closing_hour")
-    val closingHour: String,
+    val closingHour: String? = null,
 
     val day: String
 )
 
-data class Review (
+data class Review(
     val id: Long,
     val creator: Creator,
     val stars: Long,
@@ -61,7 +61,7 @@ data class Review (
     val date: String
 )
 
-data class Creator (
+data class Creator(
     @Json(name = "first_name")
     val firstName: String,
 

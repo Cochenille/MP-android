@@ -27,13 +27,13 @@ import java.util.*
 
 class RestoDetailsActivity : AppCompatActivity() {
 
-    val requestcode : Int = 0
+    val requestcode: Int = 0
     private var apiHelper: ApiHelper = ApiHelper()
     private var restaurantDetails: RestaurantDetails? = null
     private var googleMap: GoogleMap? = null
     private var geocoder: Geocoder? = null
-    private var address: String? = null
-    var identificationToken : String? = ""
+    private var currentPosition: LatLng? = null
+    var identificationToken: String? = ""
 
 
     private lateinit var mapView: MapView
@@ -44,6 +44,9 @@ class RestoDetailsActivity : AppCompatActivity() {
         setContentView(R.layout.restaurant_details_activity)
         val restaurantId = intent.getLongExtra("restaurantId", 0)
         val token = intent.getStringExtra("token")
+        val latitude = intent.getDoubleExtra("latitude", 0.0)
+        val longitude = intent.getDoubleExtra("longitude", 0.0)
+        currentPosition = LatLng(latitude, longitude)
 
         identificationToken = token
         geocoder = Geocoder(this, Locale.getDefault())
@@ -57,25 +60,26 @@ class RestoDetailsActivity : AppCompatActivity() {
         val textViewLaisserEval = findViewById<TextView>(R.id.textViewConnexionLabel)
         textViewLaisserEval.visibility = View.VISIBLE
 
-        if( identificationToken != null && identificationToken != ""){
+        if (identificationToken != null && identificationToken != "") {
             buttonBasDePage.text = "Laisser une évaluation"
             buttonBasDePage.setBackgroundResource(R.drawable.custom_rounded_button_black)
             buttonBasDePage.setOnClickListener {
 
                 val intent = Intent(this, NewEvalActivity::class.java)
-                intent.putExtra("token",identificationToken)
-                intent.putExtra("restoId",restaurantId)
+                intent.putExtra("token", identificationToken)
+                intent.putExtra("restoId", restaurantId)
                 startActivity(intent)
             }
             textViewLaisserEval.visibility = View.INVISIBLE
-        }else{
+        } else {
             buttonBasDePage.setOnClickListener {
                 val intent = Intent(this, MainActivity::class.java)
-                intent.putExtra("gotoConnexion","true")
-                startActivityForResult(intent,requestcode)
+                intent.putExtra("gotoConnexion", "true")
+                startActivityForResult(intent, requestcode)
             }
         }
     }
+
     override fun onActivityResult(
         requestCode: Int, resultCode: Int,
         data: Intent?
@@ -83,11 +87,12 @@ class RestoDetailsActivity : AppCompatActivity() {
         if (requestCode == this.requestcode) {
             if (resultCode == Activity.RESULT_OK) {
                 val intent = Intent(this, NewEvalActivity::class.java)
-                intent.putExtra("token",identificationToken)
+                intent.putExtra("token", identificationToken)
                 startActivity(intent)
             }
         }
     }
+
     private fun setViewContent() {
         val nameTextView = findViewById<TextView>(R.id.restaurant_name_textview)
         val imageView = findViewById<ImageView>(R.id.restaurant_image_view)
@@ -98,7 +103,7 @@ class RestoDetailsActivity : AppCompatActivity() {
         val webSiteButton = findViewById<Button>(R.id.web_site_button)
 
 
-        Picasso.get().load(restaurantDetails?.image).into(imageView)
+        Picasso.get().load(restaurantDetails?.image).fit().into(imageView)
         nameTextView.text = restaurantDetails?.name
         distanceTextView.text = String.format("%.2f km", restaurantDetails?.distance)
         numberOfReviewTextView.text = String.format("(%d)", restaurantDetails?.reviewCount)
@@ -183,6 +188,8 @@ class RestoDetailsActivity : AppCompatActivity() {
 
     private fun getRestaurantDetails(restaurantId: Long) {
         apiHelper.getRestaurantDetails(restaurantId,
+            currentPosition!!.latitude,
+            currentPosition!!.longitude,
             object : ApiHelper.HttpCallback {
                 override fun onFailure(response: Response?, throwable: Throwable?) {
                 }
@@ -193,18 +200,6 @@ class RestoDetailsActivity : AppCompatActivity() {
                         val jsonRestaurantDetails = jsonResponse.getJSONObject("content")
                         restaurantDetails =
                             RestaurantDetails.fromJson(jsonRestaurantDetails.toString())!!
-                        var addresses = geocoder!!.getFromLocation(
-                            restaurantDetails!!.location.latitude,
-                            restaurantDetails!!.location.longitude,
-                            1
-                        )
-                        address = addresses.get(0)
-                            .getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-
-                        val city: String = addresses.get(0).locality
-                        val state: String = addresses.get(0).adminArea
-                        val country: String = addresses.get(0).countryName
-                        val postalCode: String = addresses.get(0).postalCode
                         setViewContent()
                         setMapView()
                     } catch (e: JSONException) {

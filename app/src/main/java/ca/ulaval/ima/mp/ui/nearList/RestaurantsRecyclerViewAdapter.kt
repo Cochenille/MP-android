@@ -51,7 +51,7 @@ class RestaurantsRecyclerViewAdapter(myDataset: ArrayList<Restaurant>) :
     ) {
         val restaurant: Restaurant = mDataset[position]
         holder.restauranNameTextView.text = restaurant.name
-        Picasso.get().load(restaurant.image).into(holder.imageView)
+        Picasso.get().load(restaurant.image).fit().into(holder.imageView)
         holder.distanceTextView.text = String.format("%.1f km",restaurant.distance)
         holder.ratingBar.rating = restaurant.reviewAverage.toFloat()
         holder.ratingCountTextView.text = String.format("(%d)",restaurant.reviewCount)

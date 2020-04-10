@@ -11,8 +11,8 @@
         android:id="@+id/restaurant_image_view"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -73,4 +73,13 @@
         app:layout_constraintBottom_toBottomOf="@+id/restaurant_image_view"
         app:layout_constraintEnd_toStartOf="@+id/number_of_reviews_textview"
         app:layout_constraintStart_toStartOf="@+id/restaurant_name_textview" />
+
+    <TextView
+        android:id="@+id/type_cusine_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Type-Cuisine"
+        app:layout_constraintStart_toStartOf="@+id/restaurant_name_textview"
+        app:layout_constraintTop_toBottomOf="@+id/restaurant_name_textview" />
 </androidx.constraintlayout.widget.ConstraintLayout>
