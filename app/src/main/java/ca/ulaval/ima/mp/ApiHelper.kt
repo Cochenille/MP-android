@@ -2,8 +2,8 @@ package ca.ulaval.ima.mp
 
 import android.os.Handler
 import android.os.Looper
-import androidx.appcompat.widget.AppCompatImageView
 import okhttp3.*
+import java.io.File
 import java.io.IOException
 
 class ApiHelper {
@@ -227,6 +227,41 @@ class ApiHelper {
             .build()
         val request = Request.Builder()
             .url("https://kungry.ca/api/v1/review/")
+            .header("Authorization", "Bearer " + token)
+            .post(formBody)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+            }
+
+            @Throws(IOException::class)
+            override fun onResponse(call: Call, response: Response) {
+                if (response.isSuccessful) {
+                    val mainHandler = Handler(
+                        Looper.getMainLooper()
+                    )
+                    mainHandler.post {
+                        callback.onSuccess(response)
+                    }
+                } else {
+                    callback.onFailure(response, null)
+                }
+            }
+        })
+    }
+
+    fun submitImage(imgName: String, reviewID: Int?, token: String?, callback: HttpCallback) {
+        val MEDIA_TYPE_PNG:MediaType  = MediaType.parse("image/*")!!
+        val file = File(imgName)
+        var URL = String.format("https://kungry.ca/api/v1/review/%d/image/",reviewID)
+        val formBody: RequestBody = MultipartBody.Builder()
+            .setType(MultipartBody.FORM)
+            .addFormDataPart("image", imgName, RequestBody.create(MEDIA_TYPE_PNG,file))
+            .build()
+        val request = Request.Builder()
+            .url(URL)
             .header("Authorization", "Bearer " + token)
             .post(formBody)
             .build()
