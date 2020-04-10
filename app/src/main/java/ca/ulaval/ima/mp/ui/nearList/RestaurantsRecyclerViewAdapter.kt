@@ -41,7 +41,7 @@ class RestaurantsRecyclerViewAdapter(myDataset: ArrayList<Restaurant>) :
     ): ViewHolder {
         // create a new view
         val v: View = LayoutInflater.from(parent.context)
-            .inflate(R.layout.restaurant_infos_overlay, parent, false)
+            .inflate(R.layout.resto_row_items, parent, false)
         return ViewHolder(v)
     }
 
@@ -51,7 +51,7 @@ class RestaurantsRecyclerViewAdapter(myDataset: ArrayList<Restaurant>) :
     ) {
         val restaurant: Restaurant = mDataset[position]
         holder.restauranNameTextView.text = restaurant.name
-        Picasso.get().load(restaurant.image).into(holder.imageView)
+        Picasso.get().load(restaurant.image).fit().into(holder.imageView)
         holder.distanceTextView.text = String.format("%.1f km",restaurant.distance)
         holder.ratingBar.rating = restaurant.reviewAverage.toFloat()
         holder.ratingCountTextView.text = String.format("(%d)",restaurant.reviewCount)

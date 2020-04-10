@@ -5,6 +5,7 @@ import android.os.Looper
 import okhttp3.*
 import java.io.File
 import java.io.IOException
+import java.util.*
 
 class ApiHelper {
     val client: OkHttpClient = OkHttpClient()
@@ -18,6 +19,7 @@ class ApiHelper {
         callback: HttpCallback
     ) {
         var URL = String.format(
+            Locale.US,
             "https://kungry.ca/api/v1/restaurant/search/?latitude=%f&longitude=%f&radius=%d",
             latitude,
             longitude,
@@ -47,8 +49,19 @@ class ApiHelper {
         })
     }
 
-    fun getRestaurantDetails(restaurandId: Long, callback: HttpCallback) {
-        var URL = String.format("https://kungry.ca/api/v1/restaurant/%d/", restaurandId)
+    fun getRestaurantDetails(
+        restaurandId: Long,
+        latitude: Double,
+        longitude: Double,
+        callback: HttpCallback
+    ) {
+        var URL = String.format(
+            Locale.US,
+            "https://kungry.ca/api/v1/restaurant/%d/?latitude=%f&longitude=%f",
+            restaurandId,
+            latitude,
+            longitude
+        )
         val request = Request.Builder()
             .url(URL)
             .build()
@@ -218,7 +231,14 @@ class ApiHelper {
             }
         })
     }
-    fun submitReview(restoId: Int?, note: Int?,commentaire: String,token: String?, callback: HttpCallback) {
+
+    fun submitReview(
+        restoId: Int?,
+        note: Int?,
+        commentaire: String,
+        token: String?,
+        callback: HttpCallback
+    ) {
 
         val formBody: RequestBody = FormBody.Builder()
             .add("restaurant_id", restoId.toString())

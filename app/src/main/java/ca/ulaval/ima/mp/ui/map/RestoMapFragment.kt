@@ -5,11 +5,14 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.location.Location
+import android.location.LocationManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -29,11 +32,14 @@ import org.json.JSONException
 import org.json.JSONObject
 
 
-class RestoMapFragment : Fragment(), GoogleMap.OnMarkerClickListener,GoogleMap.OnInfoWindowCloseListener {
+class RestoMapFragment : Fragment(), GoogleMap.OnMarkerClickListener,
+    GoogleMap.OnInfoWindowCloseListener {
 
     private lateinit var mMapView: MapView
     private lateinit var viewFlipper: ViewFlipper
     private lateinit var restoInfoOverlay: ConstraintLayout
+
+    private var acc: MainActivity? = null
 
     private var googleMap: GoogleMap? = null
     private var apiHelper: ApiHelper = ApiHelper()
@@ -74,18 +80,25 @@ class RestoMapFragment : Fragment(), GoogleMap.OnMarkerClickListener,GoogleMap.O
                 ) ==
                 PackageManager.PERMISSION_GRANTED
             ) {
+
+                acc = activity as MainActivity?
+                val lm: LocationManager =
+                    root.context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+                val location: Location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                val longitude: Double = location.getLongitude()
+                val latitude: Double = location.getLatitude()
+
+
                 // For showing a move to my location button
                 googleMap!!.isMyLocationEnabled = true
 
                 // For dropping a marker at a point on the Map
-                val ulaval = LatLng(46.781918, -71.274810)
-                googleMap!!.addMarker(
-                    MarkerOptions().position(ulaval).title("Marker Title")
-                        .snippet("Marker Description").icon(bitmapDescriptorFromVector(context!!,R.drawable.ic_pin_1))
-                )
+                acc!!.currentPosition = LatLng(latitude, longitude)
+
 
                 // For zooming automatically to the location of the marker
-                val cameraPosition = CameraPosition.Builder().target(ulaval).zoom(12f).build()
+                val cameraPosition =
+                    CameraPosition.Builder().target(acc!!.currentPosition).zoom(12f).build()
                 googleMap!!.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
             } else {
                 Toast.makeText(context, "FUCK", Toast.LENGTH_LONG).show()
@@ -99,10 +112,9 @@ class RestoMapFragment : Fragment(), GoogleMap.OnMarkerClickListener,GoogleMap.O
     }
 
     private fun getRestaurants() {
-        //TODO: Replace this position by dynamic postion
         apiHelper.getRestaurantsWithinRadius(
-            46.781918,
-            -71.274810,
+            acc!!.currentPosition.latitude,
+            acc!!.currentPosition.longitude,
             30,
             object : ApiHelper.HttpCallback {
                 override fun onFailure(
@@ -137,7 +149,9 @@ class RestoMapFragment : Fragment(), GoogleMap.OnMarkerClickListener,GoogleMap.O
             var marker: Marker
             var restaurantPos = LatLng(restaurant.location.latitude, restaurant.location.longitude)
             marker = googleMap!!.addMarker(
-                MarkerOptions().position(restaurantPos).icon(bitmapDescriptorFromVector(context!!,R.drawable.ic_pin_1)).title(restaurant.name)
+                MarkerOptions().position(restaurantPos)
+                    .icon(bitmapDescriptorFromVector(context!!, R.drawable.ic_pin_1))
+                    .title(restaurant.name)
             )
             marker.tag = restaurant
         }
@@ -146,7 +160,8 @@ class RestoMapFragment : Fragment(), GoogleMap.OnMarkerClickListener,GoogleMap.O
     private fun bitmapDescriptorFromVector(context: Context, vectorResId: Int): BitmapDescriptor? {
         return ContextCompat.getDrawable(context, vectorResId)?.run {
             setBounds(0, 0, intrinsicWidth, intrinsicHeight)
-            val bitmap = Bitmap.createBitmap(intrinsicWidth, intrinsicHeight, Bitmap.Config.ARGB_8888)
+            val bitmap =
+                Bitmap.createBitmap(intrinsicWidth, intrinsicHeight, Bitmap.Config.ARGB_8888)
             draw(Canvas(bitmap))
             BitmapDescriptorFactory.fromBitmap(bitmap)
         }
@@ -175,18 +190,22 @@ class RestoMapFragment : Fragment(), GoogleMap.OnMarkerClickListener,GoogleMap.O
 
     override fun onMarkerClick(marker: Marker?): Boolean {
         marker!!.showInfoWindow()
-        marker.setIcon(bitmapDescriptorFromVector(context!!,R.drawable.ic_black_map_marker))
-        var restaurant :Restaurant = marker.tag as Restaurant
+        marker.setIcon(bitmapDescriptorFromVector(context!!, R.drawable.ic_black_map_marker))
+        var restaurant: Restaurant = marker.tag as Restaurant
         viewFlipper.displayedChild = 1
         var nameTextView = restoInfoOverlay.findViewById<TextView>(R.id.restaurant_name_textview)
         var imageView = restoInfoOverlay.findViewById<ImageView>(R.id.restaurant_image_view)
         var distanceTextView = restoInfoOverlay.findViewById<TextView>(R.id.distance_textiview)
-        var numberOfReviewTextView = restoInfoOverlay.findViewById<TextView>(R.id.number_of_reviews_textview)
+        var numberOfReviewTextView =
+            restoInfoOverlay.findViewById<TextView>(R.id.number_of_reviews_textview)
         var ratingBar = restoInfoOverlay.findViewById<RatingBar>(R.id.stars_layout)
-        Picasso.get().load(restaurant.image).into(imageView)
+        var typeCuisineTextView = restoInfoOverlay.findViewById<TextView>(R.id.type_cusine_textview)
+
+        Picasso.get().load(restaurant.image).fit().into(imageView)
         nameTextView.text = restaurant.name
-        distanceTextView.text = String.format("%.2f km",restaurant.distance)
-        numberOfReviewTextView.text = String.format("(%d)",restaurant.reviewCount)
+        typeCuisineTextView.text = String.format("%s • %s",restaurant.type,restaurant.cuisine[0].name)
+        distanceTextView.text = String.format("%.2f km", restaurant.distance)
+        numberOfReviewTextView.text = String.format("(%d)", restaurant.reviewCount)
         ratingBar.rating = restaurant.reviewAverage.toFloat()
         restoInfoOverlay.setOnClickListener(View.OnClickListener {
             launchRestoDetailsActivity(restaurant.id)
@@ -197,13 +216,15 @@ class RestoMapFragment : Fragment(), GoogleMap.OnMarkerClickListener,GoogleMap.O
     private fun launchRestoDetailsActivity(id: Long) {
         val activity = context as MainActivity
         val intent = Intent(context, RestoDetailsActivity::class.java)
-        intent.putExtra("restaurantId",id)
-        intent.putExtra("token",activity.identificationToken)
+        intent.putExtra("restaurantId", id)
+        intent.putExtra("token", activity.identificationToken)
+        intent.putExtra("latitude", acc!!.currentPosition.latitude)
+        intent.putExtra("longitude", acc!!.currentPosition.longitude)
         startActivity(intent)
     }
 
     override fun onInfoWindowClose(marker: Marker?) {
-        marker!!.setIcon(bitmapDescriptorFromVector(context!!,R.drawable.ic_pin_1))
+        marker!!.setIcon(bitmapDescriptorFromVector(context!!, R.drawable.ic_pin_1))
         viewFlipper.displayedChild = 0
     }
 
