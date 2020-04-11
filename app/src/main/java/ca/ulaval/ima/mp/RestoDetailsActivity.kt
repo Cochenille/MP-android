@@ -263,7 +263,15 @@ class RestoDetailsActivity : AppCompatActivity(), GoogleMap.OnMapClickListener {
     override fun onMapClick(p0: LatLng?) {
         var resutlIntent =  Intent()
         resutlIntent.putExtra("restoID",restaurantDetails!!.id)
-        setResult(Activity.RESULT_OK,resutlIntent)
+        resutlIntent.putExtra("token",identificationToken)
+        setResult(0,resutlIntent)
+        finish()
+    }
+
+    override fun onBackPressed() {
+        var resutlIntent =  Intent()
+        resutlIntent.putExtra("token",identificationToken)
+        setResult(0,resutlIntent)
         finish()
     }
 }
