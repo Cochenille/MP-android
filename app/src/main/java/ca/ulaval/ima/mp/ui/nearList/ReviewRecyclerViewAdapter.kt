@@ -1,23 +1,27 @@
 package ca.ulaval.ima.mp.ui.nearList
 
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import ca.ulaval.ima.mp.ImageActivity
+import ca.ulaval.ima.mp.NewEvalActivity
 import ca.ulaval.ima.mp.R
 import ca.ulaval.ima.mp.domain.Review
 import com.squareup.picasso.Picasso
+import java.security.AccessController.getContext
 
 
 class ReviewRecyclerViewAdapter(myDataset: List<Review>) :
     RecyclerView.Adapter<ReviewRecyclerViewAdapter.ViewHolder>() {
     private val mDataset: List<Review>
     private val limit = 10
-    private var onItemClickListener: OnItemClickListener? = null
 
     class ViewHolder(var view: View) : RecyclerView.ViewHolder(view) {
         var reviewDateTextView: TextView
@@ -59,25 +63,20 @@ class ReviewRecyclerViewAdapter(myDataset: List<Review>) :
         holder.ratingBar.rating = review.stars.toFloat()
         if(review.image != null){
             Picasso.get().load(review.image).fit().into(holder.imageView)
+            holder.imageView.setOnClickListener {
+                val intent = Intent(holder.view.context, ImageActivity::class.java)
+                intent.putExtra("image", review.image)
+                holder.view.context.startActivity(intent)
+            }
         }else{
             holder.imageView.visibility = View.GONE
         }
-        val listener =
-            View.OnClickListener { onItemClickListener!!.onItemClick(review) }
-        holder.view.setOnClickListener(listener)
     }
 
     override fun getItemCount(): Int {
-        return mDataset.size;
+        return mDataset.size
     }
 
-    fun setOnItemClickListener(onItemClickListener: OnItemClickListener?) {
-        this.onItemClickListener = onItemClickListener
-    }
-
-    interface OnItemClickListener {
-        fun onItemClick(item: Review?)
-    }
 
     init {
         mDataset = myDataset

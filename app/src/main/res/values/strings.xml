@@ -30,4 +30,6 @@
     <string name="ajouter">Ajouter une photo</string>
     <string name="soumettre">Soumettre</string>
     <string name="laisseruneeval">Pour laisser une évaluation, connectez-vous.</string>
+    <string name="imageActivity">ImageActivity</string>
+    <string name="imgview">imgView</string>
 </resources>

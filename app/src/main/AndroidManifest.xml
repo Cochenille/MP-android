@@ -31,6 +31,10 @@
             android:name=".NewEvalActivity"
             android:label="@string/title_activity_new_eval"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+        <activity
+            android:name=".ImageActivity"
+            android:label="@string/imageActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
 
         <activity
             android:name=".MainActivity"
