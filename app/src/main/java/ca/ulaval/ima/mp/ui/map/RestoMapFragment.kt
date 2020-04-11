@@ -100,8 +100,8 @@ class RestoMapFragment : Fragment(), GoogleMap.OnMarkerClickListener,
                 if(location == null){
                     acc!!.currentPosition= LatLng(46.781893,-71.274699)
                 }else{
-                    val longitude: Double = location!!.longitude
-                    val latitude: Double = location!!.latitude
+                    val longitude: Double = location.longitude
+                    val latitude: Double = location.latitude
                     acc!!.currentPosition = LatLng(latitude, longitude)
                 }
                 // For dropping a marker at a point on the Map
@@ -200,7 +200,9 @@ class RestoMapFragment : Fragment(), GoogleMap.OnMarkerClickListener,
 
     override fun onDestroy() {
         super.onDestroy()
-        mMapView.onDestroy()
+        if(::mMapView.isInitialized) {
+            mMapView.onDestroy()
+        }
     }
 
     override fun onLowMemory() {

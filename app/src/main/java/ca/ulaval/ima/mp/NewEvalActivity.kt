@@ -47,9 +47,9 @@ class NewEvalActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.new_eval_activity)
         val token = intent.getStringExtra("token")
-        val getRestoId = intent.getLongExtra("restoId",0)
+        val getRestoId = intent.getIntExtra("restoId",0)
 
-        restoId = getRestoId.toInt()
+        restoId = getRestoId
         identificationToken = token
 
         val galleryButton: AppCompatImageView = findViewById<AppCompatImageView>(R.id.addImg)
@@ -116,7 +116,9 @@ class NewEvalActivity : AppCompatActivity() {
                         if(addImg){
                             submitImage(imgName, reviewId.toInt())
                         }else{
-                            onBackPressed()
+                            val intent = Intent()
+                            setResult(Activity.RESULT_OK, intent)
+                            finish()
                         }
 
                     } catch (e: JSONException) {
@@ -154,6 +156,9 @@ class NewEvalActivity : AppCompatActivity() {
                             val duration = Toast.LENGTH_LONG
                             val toast = Toast.makeText(this@NewEvalActivity, text, duration)
                             toast.show()
+                            val intent = Intent()
+                            setResult(Activity.RESULT_OK, intent)
+                            finish()
                         }
                         onBackPressed()
                     } catch (e: JSONException) {
