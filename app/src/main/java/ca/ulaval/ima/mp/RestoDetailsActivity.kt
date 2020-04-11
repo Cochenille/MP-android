@@ -66,10 +66,14 @@ class RestoDetailsActivity : AppCompatActivity(), GoogleMap.OnMapClickListener {
         mapView.onResume()
 
         //affiche le bon bouton en fonction de si l'usager est connecté ou non
+        val buttonBack = findViewById<ImageView>(R.id.buttonBack)
         val buttonBasDePage = findViewById<Button>(R.id.buttonConnexion)
         val textViewLaisserEval = findViewById<TextView>(R.id.textViewConnexionLabel)
         textViewLaisserEval.visibility = View.VISIBLE
 
+        buttonBack.setOnClickListener {
+            onBackPressed()
+        }
         if (identificationToken != null && identificationToken != "") {
             buttonBasDePage.text = "Laisser une évaluation"
             buttonBasDePage.setBackgroundResource(R.drawable.custom_rounded_button_black)
