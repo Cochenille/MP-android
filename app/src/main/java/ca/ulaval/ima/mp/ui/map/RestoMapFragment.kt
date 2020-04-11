@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.location.Criteria
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
@@ -12,7 +13,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -81,18 +81,31 @@ class RestoMapFragment : Fragment(), GoogleMap.OnMarkerClickListener,
             ) {
 
                 acc = activity as MainActivity?
+
+
+                val criteria = Criteria()
+                criteria.accuracy = Criteria.ACCURACY_FINE
+                criteria.isAltitudeRequired = false
+                criteria.isBearingRequired = false
+                criteria.isCostAllowed = true
+                criteria.powerRequirement = Criteria.POWER_LOW
                 val lm: LocationManager =
                     root.context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-                val location: Location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-                val longitude: Double = location.getLongitude()
-                val latitude: Double = location.getLatitude()
+                val provider: String = lm.getBestProvider(criteria,true)
+                val location: Location? = lm.getLastKnownLocation(provider)
 
 
                 // For showing a move to my location button
                 googleMap!!.isMyLocationEnabled = true
-
+                if(location == null){
+                    acc!!.currentPosition= LatLng(46.781893,-71.274699)
+                }else{
+                    val longitude: Double = location!!.longitude
+                    val latitude: Double = location!!.latitude
+                    acc!!.currentPosition = LatLng(latitude, longitude)
+                }
                 // For dropping a marker at a point on the Map
-                acc!!.currentPosition = LatLng(latitude, longitude)
+
 
 
                 // For zooming automatically to the location of the marker
