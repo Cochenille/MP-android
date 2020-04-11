@@ -104,7 +104,7 @@ class RestoDetailsActivity : AppCompatActivity(), GoogleMap.OnMapClickListener {
             }
         }
         if (requestCode == this.requestcodeNewEval) {
-            if (resultCode == Activity.RESULT_OK) {
+            if (resultCode == 0) {
                 val buttonBasDePage = findViewById<Button>(R.id.buttonConnexion)
                 val textViewLaisserEval = findViewById<TextView>(R.id.textViewConnexionLabel)
                 buttonBasDePage.text = "Laisser une évaluation"
