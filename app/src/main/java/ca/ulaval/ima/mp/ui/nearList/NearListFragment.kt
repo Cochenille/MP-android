@@ -1,5 +1,6 @@
 package ca.ulaval.ima.mp.ui.nearList
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -100,6 +102,15 @@ class NearListFragment : Fragment() {
         intent.putExtra("token", activity.identificationToken)
         intent.putExtra("latitude", acc!!.currentPosition.latitude)
         intent.putExtra("longitude", acc!!.currentPosition.longitude)
-        startActivity(intent)
+        startActivityForResult(intent, 1)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+        super.onActivityResult(requestCode, resultCode, data)
+        var restoId = data.getLongExtra("restoID", 0)
+        var bundle = Bundle()
+        bundle.putLong("restoId", restoId)
+        acc!!.navController.navigate(R.id.navigation_map,bundle)
+
     }
 }

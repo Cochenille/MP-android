@@ -29,7 +29,7 @@ import org.json.JSONObject
 import java.util.*
 
 
-class RestoDetailsActivity : AppCompatActivity() {
+class RestoDetailsActivity : AppCompatActivity(), GoogleMap.OnMapClickListener {
 
     val requestcode: Int = 0
     private var apiHelper: ApiHelper = ApiHelper()
@@ -164,6 +164,7 @@ class RestoDetailsActivity : AppCompatActivity() {
     private fun setMapView() {
         mapView.getMapAsync { mMap ->
             googleMap = mMap
+            googleMap!!.setOnMapClickListener(this)
             if (ContextCompat.checkSelfPermission(
                     this,
                     android.Manifest.permission.ACCESS_FINE_LOCATION
@@ -236,5 +237,12 @@ class RestoDetailsActivity : AppCompatActivity() {
             draw(Canvas(bitmap))
             BitmapDescriptorFactory.fromBitmap(bitmap)
         }
+    }
+
+    override fun onMapClick(p0: LatLng?) {
+        var resutlIntent =  Intent()
+        resutlIntent.putExtra("restoID",restaurantDetails!!.id)
+        setResult(Activity.RESULT_OK,resutlIntent)
+        finish()
     }
 }

@@ -52,7 +52,6 @@ class RestoMapFragment : Fragment(), GoogleMap.OnMarkerClickListener,
     ): View? {
         val root = inflater.inflate(R.layout.fragment_map, container, false)
 
-
         mMapView = root.findViewById(R.id.mapView)
         viewFlipper = root.findViewById(R.id.map_overlay)
         restoInfoOverlay = root.findViewById(R.id.restaurant_info_overlay)
@@ -106,6 +105,8 @@ class RestoMapFragment : Fragment(), GoogleMap.OnMarkerClickListener,
             googleMap!!.setOnMarkerClickListener(this)
             googleMap!!.setOnInfoWindowCloseListener(this)
             getRestaurants()
+
+
         }
 
         return root
@@ -154,6 +155,12 @@ class RestoMapFragment : Fragment(), GoogleMap.OnMarkerClickListener,
                     .title(restaurant.name)
             )
             marker.tag = restaurant
+            if(arguments != null){
+                var currentRestoId = arguments?.getLong("restoId")
+                if(restaurant.id == currentRestoId){
+                    onMarkerClick(marker)
+                }
+            }
         }
     }
 
