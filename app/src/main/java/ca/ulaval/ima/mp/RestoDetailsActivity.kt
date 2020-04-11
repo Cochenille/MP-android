@@ -78,7 +78,7 @@ class RestoDetailsActivity : AppCompatActivity(), GoogleMap.OnMapClickListener {
                 val intent = Intent(this, NewEvalActivity::class.java)
                 intent.putExtra("token", identificationToken)
                 intent.putExtra("restoId", restaurantId)
-                startActivityForResult(intent,requestcodeNewEval)
+                startActivityForResult(intent, requestcodeNewEval)
             }
             textViewLaisserEval.visibility = View.INVISIBLE
         } else {
@@ -100,7 +100,7 @@ class RestoDetailsActivity : AppCompatActivity(), GoogleMap.OnMapClickListener {
                 identificationToken = data?.getStringExtra("token")
                 intent.putExtra("token", identificationToken)
                 intent.putExtra("restoId", restoId)
-                startActivityForResult(intent,requestcodeNewEval)
+                startActivityForResult(intent, requestcodeNewEval)
             }
         }
     }
@@ -245,9 +245,15 @@ class RestoDetailsActivity : AppCompatActivity(), GoogleMap.OnMapClickListener {
     }
 
     override fun onMapClick(p0: LatLng?) {
-        var resutlIntent =  Intent()
-        resutlIntent.putExtra("restoID",restaurantDetails!!.id)
-        setResult(Activity.RESULT_OK,resutlIntent)
+        var resutlIntent = Intent()
+        resutlIntent.putExtra("restoID", restaurantDetails!!.id)
+        setResult(Activity.RESULT_OK, resutlIntent)
         finish()
+    }
+
+    fun startAllReviewsActivity(view: View) {
+        var intent = Intent()
+        intent.putExtra("restoID", restaurantDetails!!.id)
+        startActivity(intent)
     }
 }

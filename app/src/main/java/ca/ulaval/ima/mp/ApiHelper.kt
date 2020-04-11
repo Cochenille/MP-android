@@ -307,6 +307,35 @@ class ApiHelper {
         })
     }
 
+    fun getRestaurantReviews(restoId: Long,callback: HttpCallback){
+        var URL = String.format(
+            Locale.US,
+            "https://kungry.ca/api/v1/restaurant/%d/reviews/",
+            restoId
+        )
+        val request = Request.Builder()
+            .url(URL)
+            .build()
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+            }
+
+            @Throws(IOException::class)
+            override fun onResponse(call: Call, response: Response) {
+                if (response.isSuccessful) {
+                    val mainHandler = Handler(
+                        Looper.getMainLooper()
+                    )
+                    mainHandler.post {
+                        callback.onSuccess(response)
+                    }
+                } else {
+                    callback.onFailure(response, null)
+                }
+            }
+        })
+    }
 
     interface HttpCallback {
         /**
