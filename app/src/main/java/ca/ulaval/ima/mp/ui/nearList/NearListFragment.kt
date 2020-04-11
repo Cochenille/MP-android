@@ -74,7 +74,7 @@ class NearListFragment : Fragment() {
                         adapter = RestaurantsRecyclerViewAdapter(restaurantArray)
                         recycledView.adapter = adapter
                         val horizontalDecoration = DividerItemDecoration(
-                            recycledView.getContext(),
+                            recycledView.context,
                             DividerItemDecoration.VERTICAL
                         )
                         val horizontalDivider =
