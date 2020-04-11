@@ -31,7 +31,9 @@ import java.util.*
 
 class RestoDetailsActivity : AppCompatActivity(), GoogleMap.OnMapClickListener {
 
-    val requestcode: Int = 0
+    val requestcodeGoConnect: Int = 0
+    val requestcodeNewEval: Int = 1
+    var restoId = 0
     private var apiHelper: ApiHelper = ApiHelper()
     private var restaurantDetails: RestaurantDetails? = null
     private var googleMap: GoogleMap? = null
@@ -47,6 +49,7 @@ class RestoDetailsActivity : AppCompatActivity(), GoogleMap.OnMapClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.restaurant_details_activity)
         val restaurantId = intent.getLongExtra("restaurantId", 0)
+        restoId = restaurantId.toInt()
         val token = intent.getStringExtra("token")
         val latitude = intent.getDoubleExtra("latitude", 0.0)
         val longitude = intent.getDoubleExtra("longitude", 0.0)
@@ -75,14 +78,14 @@ class RestoDetailsActivity : AppCompatActivity(), GoogleMap.OnMapClickListener {
                 val intent = Intent(this, NewEvalActivity::class.java)
                 intent.putExtra("token", identificationToken)
                 intent.putExtra("restoId", restaurantId)
-                startActivity(intent)
+                startActivityForResult(intent,requestcodeNewEval)
             }
             textViewLaisserEval.visibility = View.INVISIBLE
         } else {
             buttonBasDePage.setOnClickListener {
                 val intent = Intent(this, MainActivity::class.java)
                 intent.putExtra("gotoConnexion", "true")
-                startActivityForResult(intent, requestcode)
+                startActivityForResult(intent, requestcodeGoConnect)
             }
         }
     }
@@ -91,11 +94,13 @@ class RestoDetailsActivity : AppCompatActivity(), GoogleMap.OnMapClickListener {
         requestCode: Int, resultCode: Int,
         data: Intent?
     ) {
-        if (requestCode == this.requestcode) {
+        if (requestCode == this.requestcodeGoConnect) {
             if (resultCode == Activity.RESULT_OK) {
                 val intent = Intent(this, NewEvalActivity::class.java)
+                identificationToken = data?.getStringExtra("token")
                 intent.putExtra("token", identificationToken)
-                startActivity(intent)
+                intent.putExtra("restoId", restoId)
+                startActivityForResult(intent,requestcodeNewEval)
             }
         }
     }
