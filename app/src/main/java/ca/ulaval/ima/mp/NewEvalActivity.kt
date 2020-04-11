@@ -157,7 +157,7 @@ class NewEvalActivity : AppCompatActivity() {
                             val toast = Toast.makeText(this@NewEvalActivity, text, duration)
                             toast.show()
                             val intent = Intent()
-                            setResult(Activity.RESULT_OK, intent)
+                            setResult(0, intent)
                             finish()
                         }
                         onBackPressed()

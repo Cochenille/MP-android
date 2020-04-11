@@ -103,6 +103,22 @@ class RestoDetailsActivity : AppCompatActivity(), GoogleMap.OnMapClickListener {
                 startActivityForResult(intent, requestcodeNewEval)
             }
         }
+        if (requestCode == this.requestcodeNewEval) {
+            if (resultCode == 0) {
+                val buttonBasDePage = findViewById<Button>(R.id.buttonConnexion)
+                val textViewLaisserEval = findViewById<TextView>(R.id.textViewConnexionLabel)
+                buttonBasDePage.text = "Laisser une évaluation"
+                buttonBasDePage.setBackgroundResource(R.drawable.custom_rounded_button_black)
+                buttonBasDePage.setOnClickListener {
+
+                    val intent = Intent(this, NewEvalActivity::class.java)
+                    intent.putExtra("token", identificationToken)
+                    intent.putExtra("restoId", restoId)
+                    startActivityForResult(intent,requestcodeNewEval)
+                }
+                textViewLaisserEval.visibility = View.INVISIBLE
+            }
+        }
     }
 
     private fun setViewContent() {
