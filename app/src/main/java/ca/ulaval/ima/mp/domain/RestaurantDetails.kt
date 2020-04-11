@@ -48,7 +48,6 @@ data class OpeningHour(
 
     @Json(name = "closing_hour")
     val closingHour: String? = null,
-
     val day: String
 )
 
@@ -59,7 +58,13 @@ data class Review(
     val image: String? = null,
     val comment: String? = null,
     val date: String
-)
+){
+    public fun toJson() = klaxon.toJsonString(this)
+
+    companion object {
+        public fun fromJson(json: String) = klaxon.parse<Review>(json)
+    }
+}
 
 data class Creator(
     @Json(name = "first_name")

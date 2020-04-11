@@ -13,6 +13,7 @@ class AllReviewsActivity : AppCompatActivity() {
     private lateinit var recycledView: RecyclerView
     private lateinit var layoutManager: RecyclerView.LayoutManager
     private lateinit var adapter: ReviewRecyclerViewAdapter
+    private val reviewArray = ArrayList<Review>()
     private val apiHelper: ApiHelper = ApiHelper()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,14 +26,21 @@ class AllReviewsActivity : AppCompatActivity() {
     }
 
     private fun getReviews(restoId: Long) {
-        apiHelper.getRestaurantReviews(restoId,object : ApiHelper.HttpCallback {
+        apiHelper.getRestaurantReviews(restoId, object : ApiHelper.HttpCallback {
             override fun onFailure(response: Response?, throwable: Throwable?) {
             }
 
             override fun onSuccess(response: Response?) {
                 val jsonResponse = JSONObject(response?.body()!!.string())
                 val jsonContent = jsonResponse.getJSONObject("content")
-
+                val reviewJSONAray = jsonContent.getJSONArray("results")
+                for (i in 0 until reviewJSONAray.length()) {
+                    val reviewJSONObject = reviewJSONAray.getJSONObject(i)
+                    val review: Review = Review.fromJson(reviewJSONObject.toString())!!
+                    reviewArray.add(review)
+                }
+                adapter = ReviewRecyclerViewAdapter(reviewArray)
+                recycledView.adapter = adapter
             }
 
         })
