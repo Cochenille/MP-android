@@ -108,11 +108,14 @@ class NearListFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1) {
-            if (resultCode == Activity.RESULT_OK) {
+            if (resultCode == 0) {
                 var restoId = data?.getLongExtra("restoID", 0)
                 var bundle = Bundle()
                 if (restoId != null) {
                     bundle.putLong("restoId", restoId)
+                }
+                if (data?.getStringExtra("token") != null){
+                    acc?.identificationToken = data.getStringExtra("token")!!
                 }
                 acc!!.navController.navigate(R.id.navigation_map, bundle)
             }
