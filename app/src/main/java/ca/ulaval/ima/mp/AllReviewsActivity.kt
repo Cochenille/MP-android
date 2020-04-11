@@ -18,6 +18,7 @@ class AllReviewsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.all_resto_reviews)
         recycledView = findViewById(R.id.all_review_recycler_view)
         val restoId = intent.getLongExtra("restoID", 0)
         layoutManager = LinearLayoutManager(this)

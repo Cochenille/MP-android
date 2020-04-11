@@ -15,23 +15,16 @@ import java.util.*
 
 class RestaurantsRecyclerViewAdapter(myDataset: ArrayList<Restaurant>) :
     RecyclerView.Adapter<RestaurantsRecyclerViewAdapter.ViewHolder>() {
-    private val mDataset: ArrayList<Restaurant>
+    private val mDataset: ArrayList<Restaurant> = myDataset
     private var onItemClickListener: OnItemClickListener? = null
 
     class ViewHolder(var view: View) : RecyclerView.ViewHolder(view) {
-        var restauranNameTextView: TextView
-        var imageView: ImageView
-        var distanceTextView: TextView
-        var ratingBar: RatingBar
-        var ratingCountTextView: TextView
+        var restauranNameTextView: TextView = view.findViewById(R.id.restaurant_name_textview)
+        var imageView: ImageView = view.findViewById(R.id.restaurant_image_view)
+        var distanceTextView: TextView = view.findViewById(R.id.distance_textiview)
+        var ratingBar: RatingBar = view.findViewById(R.id.stars_layout)
+        var ratingCountTextView: TextView = view.findViewById(R.id.number_of_reviews_textview)
 
-        init {
-            restauranNameTextView = view.findViewById(R.id.restaurant_name_textview)
-            imageView = view.findViewById(R.id.restaurant_image_view)
-            distanceTextView = view.findViewById(R.id.distance_textiview)
-            ratingBar = view.findViewById(R.id.stars_layout)
-            ratingCountTextView = view.findViewById(R.id.number_of_reviews_textview)
-        }
     }
 
     // Create new views (invoked by the layout manager)
@@ -72,7 +65,4 @@ class RestaurantsRecyclerViewAdapter(myDataset: ArrayList<Restaurant>) :
         fun onItemClick(item: Restaurant?)
     }
 
-    init {
-        mDataset = myDataset
-    }
 }
