@@ -105,12 +105,18 @@ class NearListFragment : Fragment() {
         startActivityForResult(intent, 1)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        var restoId = data.getLongExtra("restoID", 0)
-        var bundle = Bundle()
-        bundle.putLong("restoId", restoId)
-        acc!!.navController.navigate(R.id.navigation_map,bundle)
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                var restoId = data?.getLongExtra("restoID", 0)
+                var bundle = Bundle()
+                if (restoId != null) {
+                    bundle.putLong("restoId", restoId)
+                }
+                acc!!.navController.navigate(R.id.navigation_map, bundle)
+            }
+        }
 
     }
 }
