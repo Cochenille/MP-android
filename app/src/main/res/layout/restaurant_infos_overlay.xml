@@ -66,6 +66,7 @@
 
     <RatingBar
         android:id="@+id/stars_layout"
+        android:theme="@style/RatingBar"
         style="?android:attr/ratingBarStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -20,6 +20,8 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="18dp"
         android:text="Date"
+        android:fontFamily="@font/san_francisco_display_light"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,6 +31,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="reviewer_name"
+        android:fontFamily="@font/san_francisco_display_light"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/date_textview"
         app:layout_constraintTop_toBottomOf="@+id/date_textview" />
 
@@ -36,6 +40,7 @@
         android:id="@+id/review_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/san_francisco_display_light"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="6dp"
@@ -49,6 +54,7 @@
     <RatingBar
         android:id="@+id/ratingBar"
         style="?android:attr/ratingBarStyleSmall"
+        android:theme="@style/RatingBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"

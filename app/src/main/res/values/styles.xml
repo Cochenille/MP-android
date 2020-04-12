@@ -31,5 +31,15 @@
     <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
         <item name="android:background">@color/black_overlay</item>
     </style>
+    <style name="RatingBar" parent="@style/Base.Widget.AppCompat.RatingBar.Small">
+        <item name="colorControlNormal">@color/colorAccent2</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
+        <item name="android:minHeight">15dp</item>
+        <item name="android:maxHeight">15dp</item>
+    </style>
+    <style name="BigRatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/colorAccent2</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
+    </style>
 
 </resources>

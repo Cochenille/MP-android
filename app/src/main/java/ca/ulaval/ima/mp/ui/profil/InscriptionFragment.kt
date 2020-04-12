@@ -38,12 +38,19 @@ class InscriptionFragment : Fragment() {
         }
 
         root.buttonInscription.setOnClickListener {
-            //TODO : validation de formulaire
             val prenom = root?.findViewById<EditText>(R.id.editTextPrenom)?.text.toString()
             val nom = root?.findViewById<EditText>(R.id.editTextNom)?.text.toString()
             val email = root?.findViewById<EditText>(R.id.editTextCourriel)?.text.toString()
             val password = root?.findViewById<EditText>(R.id.editTextPassword)?.text.toString()
-            createUser(prenom,nom,email,password)
+            if(!prenom.equals("") && !nom.equals("") && !email.equals("") && !password.equals("")){
+                createUser(prenom,nom,email,password)
+            }
+            else{
+                val text: CharSequence = "Remplissez tous les champs, votre mot de passe doit contenir au moins 8 caractères et un chiffre"
+                val duration = Toast.LENGTH_LONG
+                val toast = Toast.makeText(activity, text, duration)
+                toast.show()
+            }
         }
         return root
     }
