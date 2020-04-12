@@ -1,6 +1,7 @@
 package ca.ulaval.ima.mp.ui.reviews
 
 import android.os.Bundle
+import android.widget.TextView
 import androidx.annotation.Nullable
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -34,6 +35,10 @@ class AllReviewsActivity : AppCompatActivity() {
             Observer<PagedList<Review>> { t -> reviewPagedAdapter.submitList(t) })
 
         recycledView.adapter = reviewPagedAdapter
+
+        val reviewCount = intent.getLongExtra("reviewCount",0)
+        val reviewCountTextView = findViewById<TextView>(R.id.review_count_textview)
+        reviewCountTextView.text = String.format("(%d)",reviewCount)
 
     }
 
