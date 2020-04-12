@@ -126,7 +126,7 @@ class RestoMapFragment : Fragment(), GoogleMap.OnMarkerClickListener,
     }
 
     private fun getRestaurants() {
-        apiHelper.getRestaurantsWithinRadius(
+        apiHelper.getAllRestaurantsWithinRadius(
             acc!!.currentPosition.latitude,
             acc!!.currentPosition.longitude,
             30,
@@ -141,8 +141,7 @@ class RestoMapFragment : Fragment(), GoogleMap.OnMarkerClickListener,
                     restaurantArray.clear()
                     try {
                         val jsonResponse = JSONObject(response?.body()!!.string())
-                        val content = jsonResponse.getJSONObject("content")
-                        val restaurantsJSONArray = content.getJSONArray("results")
+                        val restaurantsJSONArray = jsonResponse.getJSONArray("content")
                         for (i in 0 until restaurantsJSONArray.length()) {
                             val restaurantJson = restaurantsJSONArray.getJSONObject(i)
                             val restaurant: Restaurant =
