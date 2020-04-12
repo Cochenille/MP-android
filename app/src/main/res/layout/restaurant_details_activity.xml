@@ -41,6 +41,9 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="24dp"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:fontFamily="@font/san_francisco_display_heavy"
                 android:text="Restaurant_Name"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -51,6 +54,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
+                android:fontFamily="@font/san_francisco_display_light"
+                android:textColor="#000000"
+                android:textSize="14sp"
                 android:text="Restaurant_type"
                 app:layout_constraintStart_toStartOf="@+id/restaurant_name_textview"
                 app:layout_constraintTop_toBottomOf="@id/restaurant_name_textview" />
@@ -70,6 +76,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginLeft="4dp"
+                android:fontFamily="@font/san_francisco_display_light"
+                android:textColor="#000000"
                 android:text="km"
                 app:layout_constraintStart_toEndOf="@+id/imageView3"
                 app:layout_constraintTop_toTopOf="@+id/imageView3" />
@@ -91,6 +99,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Reviews"
+                android:fontFamily="@font/san_francisco_display_light"
+                android:textColor="#000000"
                 app:layout_constraintStart_toEndOf="@+id/stars_layout"
                 app:layout_constraintTop_toTopOf="@+id/stars_layout" />
 
@@ -130,6 +140,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
+                android:fontFamily="@font/san_francisco_display_light"
+                android:textColor="#000000"
+                android:textSize="16sp"
                 android:text="Heures d'ouvertures"
                 app:layout_constraintStart_toStartOf="@+id/web_site_button"
                 app:layout_constraintTop_toBottomOf="@+id/web_site_button" />
@@ -155,11 +168,16 @@
 
                     <TextView
                         android:layout_marginLeft="14dp"
-                        android:text="Lundi" />
+                        android:text="Lundi"
+                        android:fontFamily="@font/san_francisco_display_light"
+                        android:textColor="#000000"
+                        android:textStyle="bold"
+/>
 
                     <TextView
                         android:id="@+id/monday_hours"
-                        android:text="Heure" />
+                        android:text="Heure"
+                        android:fontFamily="@font/san_francisco_display_light"/>
                 </TableRow>
 
                 <TableRow
@@ -168,11 +186,15 @@
 
                     <TextView
                         android:layout_marginLeft="14dp"
-                        android:text="Mardi" />
+                        android:text="Mardi"
+                        android:fontFamily="@font/san_francisco_display_light"
+                        android:textColor="#000000"
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/tuesday_hours"
-                        android:text="Heure" />
+                        android:text="Heure"
+                        android:fontFamily="@font/san_francisco_display_light"/>
                 </TableRow>
 
                 <TableRow
@@ -181,11 +203,15 @@
 
                     <TextView
                         android:layout_marginLeft="14dp"
-                        android:text="Mercredi" />
+                        android:text="Mercredi"
+                        android:fontFamily="@font/san_francisco_display_light"
+                        android:textColor="#000000"
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/wednesday_hours"
-                        android:text="Heure" />
+                        android:text="Heure"
+                        android:fontFamily="@font/san_francisco_display_light"/>
                 </TableRow>
 
                 <TableRow
@@ -194,11 +220,15 @@
 
                     <TextView
                         android:layout_marginLeft="14dp"
-                        android:text="Jeudi" />
+                        android:text="Jeudi"
+                        android:fontFamily="@font/san_francisco_display_light"
+                        android:textColor="#000000"
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/thursday_hours"
-                        android:text="Heure" />
+                        android:text="Heure"
+                        android:fontFamily="@font/san_francisco_display_light"/>
                 </TableRow>
 
                 <TableRow
@@ -207,11 +237,15 @@
 
                     <TextView
                         android:layout_marginLeft="14dp"
-                        android:text="Vendredi" />
+                        android:text="Vendredi"
+                        android:fontFamily="@font/san_francisco_display_light"
+                        android:textColor="#000000"
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/friday_hours"
-                        android:text="Heure" />
+                        android:text="Heure"
+                        android:fontFamily="@font/san_francisco_display_light"/>
                 </TableRow>
 
                 <TableRow
@@ -220,7 +254,10 @@
 
                     <TextView
                         android:layout_marginLeft="14dp"
-                        android:text="Samedi" />
+                        android:text="Samedi"
+                        android:fontFamily="@font/san_francisco_display_light"
+                        android:textColor="#000000"
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/saturday_hours"
@@ -233,7 +270,10 @@
 
                     <TextView
                         android:layout_marginLeft="14dp"
-                        android:text="Dimanche" />
+                        android:text="Dimanche"
+                        android:fontFamily="@font/san_francisco_display_light"
+                        android:textColor="#000000"
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/sunday_hours"
@@ -246,6 +286,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
+                android:fontFamily="@font/san_francisco_display_light"
+                android:textColor="#000000"
+                android:textSize="16sp"
                 android:text="Lieu"
                 app:layout_constraintStart_toStartOf="@+id/table_layout"
                 app:layout_constraintTop_toBottomOf="@+id/table_layout" />
@@ -274,6 +317,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:text="Évaluations"
+                android:fontFamily="@font/san_francisco_display_light"
+                android:textColor="#000000"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@+id/frameLayout"
                 app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
 

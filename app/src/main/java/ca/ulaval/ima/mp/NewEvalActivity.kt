@@ -74,7 +74,6 @@ class NewEvalActivity : AppCompatActivity() {
 
         //bouton soumettre
         buttonSoumettreEval.setOnClickListener {
-            //TODO : validation de formulaire
             val note = findViewById<RatingBar>(R.id.stars_layout)?.rating
             val commentaire = findViewById<EditText>(R.id.editTextCommentaire)?.text.toString()
             val photo = findViewById<AppCompatImageView>(R.id.addImg)

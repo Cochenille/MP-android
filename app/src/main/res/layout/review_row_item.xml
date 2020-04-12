@@ -22,6 +22,8 @@
         android:text="Date"
         android:fontFamily="@font/san_francisco_display_light"
         android:textStyle="bold"
+        android:textColor="#000000"
+        android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,6 +35,8 @@
         android:text="reviewer_name"
         android:fontFamily="@font/san_francisco_display_light"
         android:textStyle="bold"
+        android:textColor="#000000"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/date_textview"
         app:layout_constraintTop_toBottomOf="@+id/date_textview" />
 
@@ -41,6 +45,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/san_francisco_display_light"
+        android:textSize="12sp"
+        android:textColor="#000000"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="6dp"
