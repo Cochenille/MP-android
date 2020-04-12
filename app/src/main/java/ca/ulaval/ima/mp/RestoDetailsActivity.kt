@@ -137,7 +137,6 @@ class RestoDetailsActivity : AppCompatActivity(), GoogleMap.OnMapClickListener {
         val typeCuisineTextView = findViewById<TextView>(R.id.type_cuisine_textview)
         val reviewCountTextView = findViewById<TextView>(R.id.review_count_textview)
 
-
         Picasso.get().load(restaurantDetails?.image).fit().into(imageView)
         nameTextView.text = restaurantDetails?.name
         typeCuisineTextView.text = String.format(
