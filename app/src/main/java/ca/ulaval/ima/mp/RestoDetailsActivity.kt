@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.location.Geocoder
 import android.net.Uri
 import android.os.Bundle
 import android.telephony.PhoneNumberUtils
@@ -17,8 +16,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ca.ulaval.ima.mp.domain.RestaurantDetails
-import ca.ulaval.ima.mp.ui.nearList.RestaurantsRecyclerViewAdapter
-import ca.ulaval.ima.mp.ui.nearList.ReviewRecyclerViewAdapter
+import ca.ulaval.ima.mp.ui.reviews.ReviewRecyclerViewAdapter
+import ca.ulaval.ima.mp.ui.reviews.AllReviewsActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -27,7 +26,6 @@ import com.squareup.picasso.Picasso
 import okhttp3.Response
 import org.json.JSONException
 import org.json.JSONObject
-import java.util.*
 
 
 class RestoDetailsActivity : AppCompatActivity(), GoogleMap.OnMapClickListener {
@@ -251,7 +249,9 @@ class RestoDetailsActivity : AppCompatActivity(), GoogleMap.OnMapClickListener {
     }
 
     private fun setRecycledView() {
-        adapter = ReviewRecyclerViewAdapter(restaurantDetails!!.reviews)
+        adapter = ReviewRecyclerViewAdapter(
+            restaurantDetails!!.reviews
+        )
         recycledView.adapter = adapter
     }
 
@@ -281,7 +281,8 @@ class RestoDetailsActivity : AppCompatActivity(), GoogleMap.OnMapClickListener {
     }
 
     fun startAllReviewsActivity(view: View) {
-        val intent = Intent(this,AllReviewsActivity::class.java)
+        val intent = Intent(this,
+            AllReviewsActivity::class.java)
         intent.putExtra("restoID", restaurantDetails!!.id)
         startActivity(intent)
     }

@@ -57,7 +57,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AllReviewsActivity"
+            android:name=".ui.reviews.AllReviewsActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
             <intent-filter>

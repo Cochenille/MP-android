@@ -1,4 +1,4 @@
-package ca.ulaval.ima.mp.ui.nearList
+package ca.ulaval.ima.mp.ui.reviews
 
 
 import android.content.Intent
@@ -8,14 +8,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import ca.ulaval.ima.mp.ImageActivity
-import ca.ulaval.ima.mp.NewEvalActivity
 import ca.ulaval.ima.mp.R
 import ca.ulaval.ima.mp.domain.Review
 import com.squareup.picasso.Picasso
-import java.security.AccessController.getContext
 
 
 class ReviewRecyclerViewAdapter(myDataset: List<Review>) :

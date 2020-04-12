@@ -308,8 +308,9 @@ class ApiHelper {
     fun getRestaurantReviews(restoId: Long,page:Int,callback: HttpCallback){
         var URL = String.format(
             Locale.US,
-            "https://kungry.ca/api/v1/restaurant/%d/reviews/",
-            restoId
+            "https://kungry.ca/api/v1/restaurant/%d/reviews/?page=%d",
+            restoId,
+            page
         )
         val request = Request.Builder()
             .url(URL)
