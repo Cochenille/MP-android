@@ -94,42 +94,44 @@ class RestoMapFragment : Fragment(), GoogleMap.OnMarkerClickListener,
                 val provider: String = lm.getBestProvider(criteria,true)
                 val location: Location? = lm.getLastKnownLocation(provider)
 
-
                 // For showing a move to my location button
                 googleMap!!.isMyLocationEnabled = true
-                if(location == null){
-                    acc!!.currentPosition= LatLng(46.781893,-71.274699)
-                }else{
-                    val longitude: Double = location.longitude
-                    val latitude: Double = location.latitude
-                    acc!!.currentPosition = LatLng(latitude, longitude)
+                if(!acc!!.hasMoved){
+                    if(location == null){
+                        acc!!.currentPosition= LatLng(46.781893,-71.274699)
+                    }
+                    else{
+                        val longitude: Double = location.longitude
+                        val latitude: Double = location.latitude
+                        acc!!.currentPosition = LatLng(latitude, longitude)
+                    }
                 }
-                // For dropping a marker at a point on the Map
-
-
-
                 // For zooming automatically to the location of the marker
                 val cameraPosition =
                     CameraPosition.Builder().target(acc!!.currentPosition).zoom(12f).build()
                 googleMap!!.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
-            } else {
-                Toast.makeText(context, "FUCK", Toast.LENGTH_LONG).show()
             }
             googleMap!!.setOnMarkerClickListener(this)
             googleMap!!.setOnInfoWindowCloseListener(this)
-            getRestaurants()
-
-
+            acc!!.distanceMax = getMaxDistance()
+            getRestaurants(getMaxDistance())
+            googleMap!!.setOnCameraIdleListener {
+                acc!!.distanceMax = getMaxDistance()
+                acc!!.currentPosition = googleMap!!.cameraPosition.target
+                acc!!.hasMoved = true
+                getRestaurants(getMaxDistance())
+            }
         }
+
 
         return root
     }
 
-    private fun getRestaurants() {
+    private fun getRestaurants(radius : Int) {
         apiHelper.getAllRestaurantsWithinRadius(
             acc!!.currentPosition.latitude,
             acc!!.currentPosition.longitude,
-            30,
+            radius,
             object : ApiHelper.HttpCallback {
                 override fun onFailure(
                     response: Response?,
@@ -247,6 +249,37 @@ class RestoMapFragment : Fragment(), GoogleMap.OnMarkerClickListener,
     override fun onInfoWindowClose(marker: Marker?) {
         marker!!.setIcon(bitmapDescriptorFromVector(context!!, R.drawable.ic_pin_1))
         viewFlipper.displayedChild = 0
+    }
+    fun getMaxDistance(): Int{
+        val visibleRegion = googleMap!!.projection.visibleRegion
+        val farRight = visibleRegion.farRight
+        val farLeft = visibleRegion.farLeft
+        val nearRight = visibleRegion.nearRight
+        val nearLeft = visibleRegion.nearLeft
+        val distanceWidth =  FloatArray(12)
+        Location.distanceBetween(
+            (farRight.latitude+nearRight.latitude)/2,
+            (farRight.longitude+nearRight.longitude)/2,
+            (farLeft.latitude+nearLeft.latitude)/2,
+            (farLeft.longitude+nearLeft.longitude)/2,
+            distanceWidth)
+
+
+        val distanceHeight =  FloatArray(12)
+        Location.distanceBetween(
+            (farRight.latitude+nearRight.latitude)/2,
+            (farRight.longitude+nearRight.longitude)/2,
+            (farLeft.latitude+nearLeft.latitude)/2,
+            (farLeft.longitude+nearLeft.longitude)/2,
+            distanceHeight)
+        val distance: Float
+
+        if (distanceWidth[0]>distanceHeight[0]){
+            distance = distanceWidth[0]
+        } else {
+            distance = distanceHeight[0]
+        }
+        return distance.toInt()/1000
     }
 
 }

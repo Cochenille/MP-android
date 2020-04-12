@@ -43,15 +43,15 @@ class NearListFragment : Fragment() {
         layoutManager = LinearLayoutManager(this.context)
         recycledView.layoutManager = layoutManager
         acc = activity as MainActivity?
-        getRestaurants()
+        getRestaurants(acc!!.distanceMax)
         return root
     }
 
-    private fun getRestaurants() {
+    private fun getRestaurants(radius : Int) {
         apiHelper.getRestaurantsWithinRadius(
             acc!!.currentPosition.latitude,
             acc!!.currentPosition.longitude,
-            10000,
+            radius,
             object : ApiHelper.HttpCallback {
                 override fun onFailure(
                     response: Response?,
