@@ -9,8 +9,6 @@ import java.util.*
 
 class ApiHelper {
     val client: OkHttpClient = OkHttpClient()
-    val JSON = MediaType.parse("application/json; charset=utf-8")
-
 
     fun getRestaurantsWithinRadius(
         latitude: Double?,
@@ -307,11 +305,48 @@ class ApiHelper {
         })
     }
 
-    fun getRestaurantReviews(restoId: Long,callback: HttpCallback){
+    fun getRestaurantReviews(restoId: Long,page:Int,callback: HttpCallback){
         var URL = String.format(
             Locale.US,
             "https://kungry.ca/api/v1/restaurant/%d/reviews/",
             restoId
+        )
+        val request = Request.Builder()
+            .url(URL)
+            .build()
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+            }
+
+            @Throws(IOException::class)
+            override fun onResponse(call: Call, response: Response) {
+                if (response.isSuccessful) {
+                    val mainHandler = Handler(
+                        Looper.getMainLooper()
+                    )
+                    mainHandler.post {
+                        callback.onSuccess(response)
+                    }
+                } else {
+                    callback.onFailure(response, null)
+                }
+            }
+        })
+    }
+
+    fun getAllRestaurantsWithinRadius(
+        latitude: Double?,
+        longitude: Double?,
+        radius: Int?,
+        callback: HttpCallback
+    ) {
+        var URL = String.format(
+            Locale.US,
+            "https://kungry.ca/api/v1/restaurant/direct_search/?latitude=%f&longitude=%f&radius=%d",
+            latitude,
+            longitude,
+            radius
         )
         val request = Request.Builder()
             .url(URL)
