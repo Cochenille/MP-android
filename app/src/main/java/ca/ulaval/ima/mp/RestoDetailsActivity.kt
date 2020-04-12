@@ -9,6 +9,7 @@ import android.graphics.Canvas
 import android.location.Geocoder
 import android.net.Uri
 import android.os.Bundle
+import android.telephony.PhoneNumberUtils
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -146,7 +147,8 @@ class RestoDetailsActivity : AppCompatActivity(), GoogleMap.OnMapClickListener {
         distanceTextView.text = String.format("%.2f km", restaurantDetails?.distance)
         numberOfReviewTextView.text = String.format("(%d)", restaurantDetails?.reviewCount)
         ratingBar.rating = restaurantDetails?.reviewAverage!!.toFloat()
-        phoneButton.text = restaurantDetails?.phoneNumber
+        val formattedNumber = PhoneNumberUtils.formatNumber(restaurantDetails?.phoneNumber)
+        phoneButton.text = formattedNumber
         phoneButton.setOnClickListener {
             val intent = Intent(Intent.ACTION_DIAL)
             intent.data = Uri.parse(String.format("tel:%s", restaurantDetails!!.phoneNumber))
@@ -280,7 +282,7 @@ class RestoDetailsActivity : AppCompatActivity(), GoogleMap.OnMapClickListener {
     }
 
     fun startAllReviewsActivity(view: View) {
-        val intent = Intent(this,AllReviewsActivity::class.java);
+        val intent = Intent(this,AllReviewsActivity::class.java)
         intent.putExtra("restoID", restaurantDetails!!.id)
         startActivity(intent)
     }
