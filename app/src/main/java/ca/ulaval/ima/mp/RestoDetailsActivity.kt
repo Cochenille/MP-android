@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.location.Geocoder
+import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.telephony.PhoneNumberUtils
@@ -285,4 +286,5 @@ class RestoDetailsActivity : AppCompatActivity(), GoogleMap.OnMapClickListener {
         intent.putExtra("restoID", restaurantDetails!!.id)
         startActivity(intent)
     }
+
 }
