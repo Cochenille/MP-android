@@ -43,6 +43,12 @@ class MainActivity : AppCompatActivity() {
             navController.navigate(R.id.navigation_profil)
         }
 
+        val identificationToken = intent.getStringExtra("token")
+
+        if(identificationToken != null){
+            this.identificationToken = identificationToken
+        }
+
         navView.setupWithNavController(navController)
     }
     fun userIsLogged(): Boolean {

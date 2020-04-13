@@ -293,7 +293,7 @@ class RestoDetailsActivity : AppCompatActivity(), GoogleMap.OnMapClickListener {
         intent.putExtra("restoID", restaurantDetails!!.id)
         intent.putExtra("token",identificationToken)
         intent.putExtra("reviewCount",restaurantDetails!!.reviewCount)
-        startActivity(intent)
+        startActivityForResult(intent,requestcodeNewEval)
     }
 
 }

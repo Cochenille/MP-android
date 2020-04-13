@@ -85,6 +85,13 @@ class AllReviewsActivity : AppCompatActivity() {
             }
         }
     }
+    override fun onBackPressed() {
+        var resutlIntent =  Intent()
+        resutlIntent.putExtra("token",identificationToken)
+        setResult(0,resutlIntent)
+        finish()
+    }
+
 
     override fun onActivityResult(
         requestCode: Int, resultCode: Int,
