@@ -42,6 +42,8 @@ class RestoDetailsActivity : AppCompatActivity(), GoogleMap.OnMapClickListener {
     private lateinit var layoutManager: RecyclerView.LayoutManager
     private lateinit var adapter: ReviewRecyclerViewAdapter
     private lateinit var mapView: MapView
+    private lateinit var buttonBasDePage: Button
+    private lateinit var textViewLaisserEval: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -66,12 +68,20 @@ class RestoDetailsActivity : AppCompatActivity(), GoogleMap.OnMapClickListener {
 
         //affiche le bon bouton en fonction de si l'usager est connecté ou non
         val buttonBack = findViewById<ImageView>(R.id.buttonBack)
-        val buttonBasDePage = findViewById<Button>(R.id.buttonConnexion)
-        val textViewLaisserEval = findViewById<TextView>(R.id.textViewConnexionLabel)
+        buttonBasDePage = findViewById(R.id.buttonConnexion)
+        textViewLaisserEval = findViewById(R.id.textViewConnexionLabel)
         textViewLaisserEval.visibility = View.VISIBLE
         buttonBack.setOnClickListener {
             onBackPressed()
         }
+        setFooter(buttonBasDePage, restaurantId, textViewLaisserEval)
+    }
+
+    private fun setFooter(
+        buttonBasDePage: Button,
+        restaurantId: Long,
+        textViewLaisserEval: TextView
+    ) {
         if (identificationToken != null && identificationToken != "") {
             buttonBasDePage.text = "Laisser une évaluation"
             buttonBasDePage.setBackgroundResource(R.drawable.custom_rounded_button_black)
@@ -79,7 +89,7 @@ class RestoDetailsActivity : AppCompatActivity(), GoogleMap.OnMapClickListener {
                 val intent = Intent(this, NewEvalActivity::class.java)
                 intent.putExtra("token", identificationToken)
                 intent.putExtra("restoId", restaurantId)
-                startActivityForResult(intent,requestcodeNewEval)
+                startActivityForResult(intent, requestcodeNewEval)
             }
             textViewLaisserEval.visibility = View.INVISIBLE
         } else {
@@ -120,6 +130,7 @@ class RestoDetailsActivity : AppCompatActivity(), GoogleMap.OnMapClickListener {
                 textViewLaisserEval.visibility = View.INVISIBLE
             }
             getRestaurantDetails(restoId.toLong())
+            setFooter(buttonBasDePage,restoId.toLong(),textViewLaisserEval)
         }
     }
 
