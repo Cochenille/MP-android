@@ -1,4 +1,4 @@
-package ca.ulaval.ima.mp.ui.reviews
+package ca. ulaval.ima.mp.ui.reviews
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource

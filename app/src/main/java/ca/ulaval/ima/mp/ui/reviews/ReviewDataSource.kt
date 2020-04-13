@@ -8,7 +8,6 @@ import org.json.JSONObject
 
 class ReviewDataSource(restaurantId: Long) : PageKeyedDataSource<Int, Review>() {
 
-    val REVIEWS_PAGE_SIZE = 5
     private val restoID: Long
     val FIRST_PAGE = 1
     val apiHelper: ApiHelper = ApiHelper()
@@ -65,7 +64,7 @@ class ReviewDataSource(restaurantId: Long) : PageKeyedDataSource<Int, Review>() 
                     reviewArray.add(review)
                 }
 
-                var key: Int = 0
+                var key = 0
                 key = (if (jsonContent.get("next") != null) {
                     params.key + 1
                 } else {
@@ -93,6 +92,7 @@ class ReviewDataSource(restaurantId: Long) : PageKeyedDataSource<Int, Review>() 
                 } else {
                     null
                 }
+
                 val reviewArray = ArrayList<Review>()
                 val jsonResponse = JSONObject(response?.body()!!.string())
                 val jsonContent = jsonResponse.getJSONObject("content")

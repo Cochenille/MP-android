@@ -8,20 +8,22 @@ import java.io.IOException
 import java.util.*
 
 class ApiHelper {
-    val client: OkHttpClient = OkHttpClient()
+    private val client: OkHttpClient = OkHttpClient()
 
     fun getRestaurantsWithinRadius(
         latitude: Double?,
         longitude: Double?,
+        page: Int?,
+        pageSize: Int?,
         radius: Int?,
         callback: HttpCallback
     ) {
         var URL = String.format(
             Locale.US,
-            "https://kungry.ca/api/v1/restaurant/search/?latitude=%f&longitude=%f&radius=%d",
+            "https://kungry.ca/api/v1/restaurant/search/?latitude=%f&longitude=%f&radius=%d&page=%d&page_size=%d",
             latitude,
             longitude,
-            radius
+            radius, page, pageSize
         )
         val request = Request.Builder()
             .url(URL)
@@ -271,12 +273,12 @@ class ApiHelper {
     }
 
     fun submitImage(imgName: String, reviewID: Int?, token: String?, callback: HttpCallback) {
-        val MEDIA_TYPE_PNG:MediaType  = MediaType.parse("image/*")!!
+        val MEDIA_TYPE_PNG: MediaType = MediaType.parse("image/*")!!
         val file = File(imgName)
-        var URL = String.format("https://kungry.ca/api/v1/review/%d/image/",reviewID)
+        var URL = String.format("https://kungry.ca/api/v1/review/%d/image/", reviewID)
         val formBody: RequestBody = MultipartBody.Builder()
             .setType(MultipartBody.FORM)
-            .addFormDataPart("image", imgName, RequestBody.create(MEDIA_TYPE_PNG,file))
+            .addFormDataPart("image", imgName, RequestBody.create(MEDIA_TYPE_PNG, file))
             .build()
         val request = Request.Builder()
             .url(URL)
@@ -305,7 +307,7 @@ class ApiHelper {
         })
     }
 
-    fun getRestaurantReviews(restoId: Long,page:Int,callback: HttpCallback){
+    fun getRestaurantReviews(restoId: Long, page: Int, callback: HttpCallback) {
         var URL = String.format(
             Locale.US,
             "https://kungry.ca/api/v1/restaurant/%d/reviews/?page=%d",

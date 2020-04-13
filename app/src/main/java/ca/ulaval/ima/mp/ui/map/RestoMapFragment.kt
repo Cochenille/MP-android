@@ -250,6 +250,7 @@ class RestoMapFragment : Fragment(), GoogleMap.OnMarkerClickListener,
         marker!!.setIcon(bitmapDescriptorFromVector(context!!, R.drawable.ic_pin_1))
         viewFlipper.displayedChild = 0
     }
+
     fun getMaxDistance(): Int{
         val visibleRegion = googleMap!!.projection.visibleRegion
         val farRight = visibleRegion.farRight
