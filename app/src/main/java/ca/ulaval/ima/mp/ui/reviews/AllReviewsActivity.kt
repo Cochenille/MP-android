@@ -23,7 +23,7 @@ class AllReviewsActivity : AppCompatActivity() {
     private lateinit var recycledView: RecyclerView
     private lateinit var layoutManager: RecyclerView.LayoutManager
     var identificationToken: String? = ""
-    var restoId = 0
+    var restoId : Long = 0
     val requestcodeGoConnect: Int = 0
     val requestcodeNewEval: Int = 1
     private lateinit var buttonBasDePage: Button
@@ -35,7 +35,7 @@ class AllReviewsActivity : AppCompatActivity() {
         recycledView = findViewById(R.id.all_review_recycler_view)
         val restoId = intent.getLongExtra("restoID", 0)
         val token = intent.getStringExtra("token")
-        this.restoId = restoId.toInt()
+        this.restoId = restoId
         identificationToken = token
         layoutManager = LinearLayoutManager(this)
         recycledView.layoutManager = layoutManager

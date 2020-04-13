@@ -32,7 +32,7 @@ class RestoDetailsActivity : AppCompatActivity(), GoogleMap.OnMapClickListener {
 
     val requestcodeGoConnect: Int = 0
     val requestcodeNewEval: Int = 1
-    var restoId = 0
+    var restoId : Long = 0
     private var apiHelper: ApiHelper = ApiHelper()
     private var restaurantDetails: RestaurantDetails? = null
     private var googleMap: GoogleMap? = null
@@ -50,7 +50,7 @@ class RestoDetailsActivity : AppCompatActivity(), GoogleMap.OnMapClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.restaurant_details_activity)
         val restaurantId = intent.getLongExtra("restaurantId", 0)
-        restoId = restaurantId.toInt()
+        restoId = restaurantId
         val token = intent.getStringExtra("token")
         val latitude = intent.getDoubleExtra("latitude", 0.0)
         val longitude = intent.getDoubleExtra("longitude", 0.0)

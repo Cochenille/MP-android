@@ -233,7 +233,7 @@ class ApiHelper {
     }
 
     fun submitReview(
-        restoId: Int?,
+        restoId: Long?,
         note: Int?,
         commentaire: String,
         token: String?,

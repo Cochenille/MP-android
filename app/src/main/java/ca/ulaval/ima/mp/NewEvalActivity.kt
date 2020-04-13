@@ -36,7 +36,7 @@ import java.io.IOException
  */
 class NewEvalActivity : AppCompatActivity() {
     var identificationToken : String? = ""
-    var restoId = 0
+    var restoId : Long = 0
     private val PICK_FROM_GALLERY = 1
     private var apiHelper: ApiHelper = ApiHelper()
     private var addImg = false
@@ -47,7 +47,7 @@ class NewEvalActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.new_eval_activity)
         val token = intent.getStringExtra("token")
-        val getRestoId = intent.getIntExtra("restoId",0)
+        val getRestoId = intent.getLongExtra("restoId",0)
 
         restoId = getRestoId
         identificationToken = token
