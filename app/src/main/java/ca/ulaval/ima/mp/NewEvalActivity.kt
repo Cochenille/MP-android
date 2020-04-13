@@ -116,7 +116,7 @@ class NewEvalActivity : AppCompatActivity() {
                             submitImage(imgName, reviewId.toInt())
                         }else{
                             val intent = Intent()
-                            setResult(Activity.RESULT_OK, intent)
+                            setResult(0, intent)
                             finish()
                         }
 
