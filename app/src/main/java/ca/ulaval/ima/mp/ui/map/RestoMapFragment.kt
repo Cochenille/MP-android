@@ -106,8 +106,6 @@ class RestoMapFragment : Fragment(), GoogleMap.OnMarkerClickListener,
                         acc!!.currentPosition = LatLng(latitude, longitude)
                     }
                 }
-                //DEBUG:
-                acc!!.currentPosition= LatLng(46.781893,-71.274699)
                 // For zooming automatically to the location of the marker
                 val cameraPosition =
                     CameraPosition.Builder().target(acc!!.currentPosition).zoom(12f).build()

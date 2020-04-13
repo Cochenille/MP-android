@@ -64,6 +64,7 @@ class ReviewPagedAdapter (private val context: Context) :
             String.format("%s %s", review.creator.firstName, review.creator.lastName)
         holder.reviewCommentTextView.text = review.comment
         holder.ratingBar.rating = review.stars.toFloat()
+        holder.imageView.visibility = View.VISIBLE
         if(review.image != null){
             Picasso.get().load(review.image).fit().into(holder.imageView)
             holder.imageView.setOnClickListener {
