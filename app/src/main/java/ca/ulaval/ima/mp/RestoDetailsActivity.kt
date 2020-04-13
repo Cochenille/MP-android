@@ -69,7 +69,6 @@ class RestoDetailsActivity : AppCompatActivity(), GoogleMap.OnMapClickListener {
         val buttonBasDePage = findViewById<Button>(R.id.buttonConnexion)
         val textViewLaisserEval = findViewById<TextView>(R.id.textViewConnexionLabel)
         textViewLaisserEval.visibility = View.VISIBLE
-
         buttonBack.setOnClickListener {
             onBackPressed()
         }
@@ -77,7 +76,6 @@ class RestoDetailsActivity : AppCompatActivity(), GoogleMap.OnMapClickListener {
             buttonBasDePage.text = "Laisser une évaluation"
             buttonBasDePage.setBackgroundResource(R.drawable.custom_rounded_button_black)
             buttonBasDePage.setOnClickListener {
-
                 val intent = Intent(this, NewEvalActivity::class.java)
                 intent.putExtra("token", identificationToken)
                 intent.putExtra("restoId", restaurantId)

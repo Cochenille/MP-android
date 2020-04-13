@@ -42,6 +42,7 @@ class MainActivity : AppCompatActivity() {
             gottagoback = true
             navController.navigate(R.id.navigation_profil)
         }
+
         navView.setupWithNavController(navController)
     }
     fun userIsLogged(): Boolean {
