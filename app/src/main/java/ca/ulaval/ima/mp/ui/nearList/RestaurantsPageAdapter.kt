@@ -25,6 +25,7 @@ class RestaurantsPageAdapter(private val context: Context) :
         var distanceTextView: TextView = view.findViewById(R.id.distance_textiview)
         var ratingBar: RatingBar = view.findViewById(R.id.stars_layout)
         var ratingCountTextView: TextView = view.findViewById(R.id.number_of_reviews_textview)
+        var typeCuisineTextView: TextView = view.findViewById(R.id.type_cusine_textview)
 
     }
 
@@ -49,6 +50,7 @@ class RestaurantsPageAdapter(private val context: Context) :
         holder.distanceTextView.text = String.format("%.1f km", restaurant.distance)
         holder.ratingBar.rating = restaurant.reviewAverage.toFloat()
         holder.ratingCountTextView.text = String.format("(%d)", restaurant.reviewCount)
+        holder.typeCuisineTextView.text = String.format("%s • %s",restaurant.type,restaurant.cuisine[0].name)
         val listener =
             View.OnClickListener { onItemClickListener!!.onItemClick(restaurant) }
         holder.view.setOnClickListener(listener)
