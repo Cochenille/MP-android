@@ -43,7 +43,7 @@ class ReviewRecyclerViewAdapter(myDataset: List<Review>) :
     ): ViewHolder {
         // create a new view
         val v: View = LayoutInflater.from(parent.context)
-            .inflate(R.layout.review_row_item, parent, false)
+            .inflate(R.layout.review_row_item_image, parent, false)
         return ViewHolder(v)
     }
 
