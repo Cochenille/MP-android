@@ -291,7 +291,7 @@ class RestoDetailsActivity : AppCompatActivity(), GoogleMap.OnMapClickListener {
     fun startAllReviewsActivity(view: View) {
         val intent = Intent(this, AllReviewsActivity::class.java)
         intent.putExtra("restoID", restaurantDetails!!.id)
-        intent.putExtra("token", identificationToken)
+        intent.putExtra("token",identificationToken)
         intent.putExtra("reviewCount",restaurantDetails!!.reviewCount)
         startActivity(intent)
     }

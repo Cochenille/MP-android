@@ -26,6 +26,8 @@ class AllReviewsActivity : AppCompatActivity() {
     var restoId = 0
     val requestcodeGoConnect: Int = 0
     val requestcodeNewEval: Int = 1
+    private lateinit var buttonBasDePage: Button
+    private lateinit var textViewLaisserEval: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,19 +50,23 @@ class AllReviewsActivity : AppCompatActivity() {
 
         recycledView.adapter = reviewPagedAdapter
 
-        val reviewCount = intent.getLongExtra("reviewCount",0)
+        val reviewCount = intent.getLongExtra("reviewCount", 0)
         val reviewCountTextView = findViewById<TextView>(R.id.review_count_textview)
-        reviewCountTextView.text = String.format("(%d)",reviewCount)
+        reviewCountTextView.text = String.format("(%d)", reviewCount)
 
         //affiche le bon bouton en fonction de si l'usager est connecté ou non
         val buttonBack = findViewById<ImageView>(R.id.buttonBack)
-        val buttonBasDePage = findViewById<Button>(R.id.buttonConnexion)
-        val textViewLaisserEval = findViewById<TextView>(R.id.textViewConnexionLabel)
+        buttonBasDePage = findViewById<Button>(R.id.buttonConnexion)
+        textViewLaisserEval = findViewById<TextView>(R.id.textViewConnexionLabel)
         textViewLaisserEval.visibility = View.VISIBLE
 
         buttonBack.setOnClickListener {
             onBackPressed()
         }
+        setFooter(restoId)
+    }
+
+    private fun setFooter(restoId: Long) {
         if (identificationToken != null && identificationToken != "") {
             buttonBasDePage.text = "Laisser une évaluation"
             buttonBasDePage.setBackgroundResource(R.drawable.custom_rounded_button_black)
@@ -68,7 +74,7 @@ class AllReviewsActivity : AppCompatActivity() {
                 val intent = Intent(this, NewEvalActivity::class.java)
                 intent.putExtra("token", identificationToken)
                 intent.putExtra("restoId", restoId)
-                startActivityForResult(intent,requestcodeNewEval)
+                startActivityForResult(intent, requestcodeNewEval)
             }
             textViewLaisserEval.visibility = View.INVISIBLE
         } else {
@@ -79,6 +85,7 @@ class AllReviewsActivity : AppCompatActivity() {
             }
         }
     }
+
     override fun onActivityResult(
         requestCode: Int, resultCode: Int,
         data: Intent?
@@ -89,7 +96,7 @@ class AllReviewsActivity : AppCompatActivity() {
                 identificationToken = data?.getStringExtra("token")
                 intent.putExtra("token", identificationToken)
                 intent.putExtra("restoId", restoId)
-                startActivityForResult(intent,requestcodeNewEval)
+                startActivityForResult(intent, requestcodeNewEval)
             }
         }
         if (requestCode == this.requestcodeNewEval) {
@@ -103,9 +110,10 @@ class AllReviewsActivity : AppCompatActivity() {
                     val intent = Intent(this, NewEvalActivity::class.java)
                     intent.putExtra("token", identificationToken)
                     intent.putExtra("restoId", restoId)
-                    startActivityForResult(intent,requestcodeNewEval)
+                    startActivityForResult(intent, requestcodeNewEval)
                 }
                 textViewLaisserEval.visibility = View.INVISIBLE
+                setFooter(restoId.toLong())
             }
         }
     }
