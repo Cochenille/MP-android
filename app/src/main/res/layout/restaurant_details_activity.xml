@@ -176,8 +176,8 @@
 
                     <TextView
                         android:id="@+id/monday_hours"
-                        android:text="Heure"
-                        android:fontFamily="@font/san_francisco_display_light"/>
+                        android:fontFamily="@font/san_francisco_display_light"
+                        android:text="Indisponible" />
                 </TableRow>
 
                 <TableRow
@@ -193,8 +193,8 @@
 
                     <TextView
                         android:id="@+id/tuesday_hours"
-                        android:text="Heure"
-                        android:fontFamily="@font/san_francisco_display_light"/>
+                        android:fontFamily="@font/san_francisco_display_light"
+                        android:text="Indisponible" />
                 </TableRow>
 
                 <TableRow
@@ -210,8 +210,8 @@
 
                     <TextView
                         android:id="@+id/wednesday_hours"
-                        android:text="Heure"
-                        android:fontFamily="@font/san_francisco_display_light"/>
+                        android:fontFamily="@font/san_francisco_display_light"
+                        android:text="Indisponible" />
                 </TableRow>
 
                 <TableRow
@@ -227,8 +227,8 @@
 
                     <TextView
                         android:id="@+id/thursday_hours"
-                        android:text="Heure"
-                        android:fontFamily="@font/san_francisco_display_light"/>
+                        android:fontFamily="@font/san_francisco_display_light"
+                        android:text="Indisponible" />
                 </TableRow>
 
                 <TableRow
@@ -244,8 +244,8 @@
 
                     <TextView
                         android:id="@+id/friday_hours"
-                        android:text="Heure"
-                        android:fontFamily="@font/san_francisco_display_light"/>
+                        android:fontFamily="@font/san_francisco_display_light"
+                        android:text="Indisponible" />
                 </TableRow>
 
                 <TableRow
@@ -261,7 +261,8 @@
 
                     <TextView
                         android:id="@+id/saturday_hours"
-                        android:text="Heure" />
+                        android:fontFamily="@font/san_francisco_display_light"
+                        android:text="Indisponible" />
                 </TableRow>
 
                 <TableRow
@@ -277,7 +278,8 @@
 
                     <TextView
                         android:id="@+id/sunday_hours"
-                        android:text="Heure" />
+                        android:fontFamily="@font/san_francisco_display_light"
+                        android:text="Indisponible" />
                 </TableRow>
             </TableLayout>
 
