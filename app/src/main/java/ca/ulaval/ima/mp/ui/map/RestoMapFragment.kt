@@ -38,7 +38,7 @@ class RestoMapFragment : Fragment(), GoogleMap.OnMarkerClickListener,
     private lateinit var mMapView: MapView
     private lateinit var viewFlipper: ViewFlipper
     private lateinit var restoInfoOverlay: ConstraintLayout
-
+    var markerchecked = false
     private var acc: MainActivity? = null
 
     private var googleMap: GoogleMap? = null
@@ -106,6 +106,8 @@ class RestoMapFragment : Fragment(), GoogleMap.OnMarkerClickListener,
                         acc!!.currentPosition = LatLng(latitude, longitude)
                     }
                 }
+                //DEBUG:
+                acc!!.currentPosition= LatLng(46.781893,-71.274699)
                 // For zooming automatically to the location of the marker
                 val cameraPosition =
                     CameraPosition.Builder().target(acc!!.currentPosition).zoom(12f).build()
@@ -116,10 +118,12 @@ class RestoMapFragment : Fragment(), GoogleMap.OnMarkerClickListener,
             acc!!.distanceMax = getMaxDistance()
             getRestaurants(getMaxDistance())
             googleMap!!.setOnCameraIdleListener {
-                acc!!.distanceMax = getMaxDistance()
-                acc!!.currentPosition = googleMap!!.cameraPosition.target
-                acc!!.hasMoved = true
-                getRestaurants(getMaxDistance())
+                if(!markerchecked) {
+                    acc!!.distanceMax = getMaxDistance()
+                    acc!!.currentPosition = googleMap!!.cameraPosition.target
+                    acc!!.hasMoved = true
+                    getRestaurants(getMaxDistance())
+                }
             }
         }
 
@@ -212,6 +216,7 @@ class RestoMapFragment : Fragment(), GoogleMap.OnMarkerClickListener,
     }
 
     override fun onMarkerClick(marker: Marker?): Boolean {
+        markerchecked = true
         marker!!.showInfoWindow()
         marker.setIcon(bitmapDescriptorFromVector(context!!, R.drawable.ic_black_map_marker))
         var restaurant: Restaurant = marker.tag as Restaurant
@@ -247,6 +252,7 @@ class RestoMapFragment : Fragment(), GoogleMap.OnMarkerClickListener,
     }
 
     override fun onInfoWindowClose(marker: Marker?) {
+        markerchecked = false
         marker!!.setIcon(bitmapDescriptorFromVector(context!!, R.drawable.ic_pin_1))
         viewFlipper.displayedChild = 0
     }
