@@ -118,6 +118,7 @@ class RestoDetailsActivity : AppCompatActivity(), GoogleMap.OnMapClickListener {
                     startActivityForResult(intent,requestcodeNewEval)
                 }
                 textViewLaisserEval.visibility = View.INVISIBLE
+                getRestaurantDetails(restoId.toLong())
             }
         }
     }
