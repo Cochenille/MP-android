@@ -277,7 +277,7 @@ class RestoDetailsActivity : AppCompatActivity(), GoogleMap.OnMapClickListener {
         var resutlIntent =  Intent()
         resutlIntent.putExtra("restoID",restaurantDetails!!.id)
         resutlIntent.putExtra("token",identificationToken)
-        setResult(0,resutlIntent)
+        setResult(3,resutlIntent)
         finish()
     }
 

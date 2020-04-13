@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -78,7 +79,7 @@ class NearListFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1) {
-            if (resultCode == 0) {
+            if (resultCode == 3) {
                 var restoId = data?.getLongExtra("restoID", 0)
                 var bundle = Bundle()
                 if (restoId != null) {
@@ -87,7 +88,7 @@ class NearListFragment : Fragment() {
                 if (data?.getStringExtra("token") != null) {
                     acc?.identificationToken = data.getStringExtra("token")!!
                 }
-                acc!!.navController.navigate(R.id.navigation_map, bundle)
+                findNavController().navigate(R.id.navigation_map, bundle)
             }
         }
 
