@@ -14,7 +14,7 @@ class RestaurantViewModel: ViewModel(){
     init {
         liveDataSource = restaurantDataSourceFactory.restaurantLiveDataSource
 
-        val config = PagedList.Config.Builder().setEnablePlaceholders(false).setPageSize(6).build()
+        val config = PagedList.Config.Builder().setEnablePlaceholders(false).setPageSize(5).build()
 
         restaurantPagedList = LivePagedListBuilder(restaurantDataSourceFactory, config).build()
     }

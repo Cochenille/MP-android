@@ -37,7 +37,7 @@ class NearListFragment : Fragment() {
         recycledView.layoutManager = layoutManager
         acc = activity as MainActivity?
         val restaurantViewModel: RestaurantViewModel =
-            ViewModelProviders.of(activity!!).get(RestaurantViewModel::class.java)
+            ViewModelProviders.of(this).get(RestaurantViewModel::class.java)
         restaurantViewModel.setLatLong(
             acc!!.currentPosition.latitude,
             acc!!.currentPosition.longitude
@@ -46,6 +46,7 @@ class NearListFragment : Fragment() {
         restaurantViewModel.restaurantPagedList.observe(this, Observer<PagedList<Restaurant>> { t ->
             adapter.submitList(t)
         })
+        recycledView.adapter = adapter
         val horizontalDecoration = DividerItemDecoration(
             recycledView.context,
             DividerItemDecoration.VERTICAL

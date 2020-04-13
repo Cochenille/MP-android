@@ -12,7 +12,7 @@ class RestaurantDataSource(latitude: Double, longitude: Double) :
     private val latitude: Double
     private val longitude: Double
     val FIRST_PAGE = 1
-    val PAGE_SIZE = 6
+    val PAGE_SIZE = 5
     val apiHelper: ApiHelper = ApiHelper()
     override fun loadInitial(
         params: LoadInitialParams<Int>,
